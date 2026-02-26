@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Formant Tuning Coach</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 16px;
+            color: #333;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: clamp(1.4em, 5vw, 2.2em);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 16px;
+            font-size: clamp(0.85em, 3vw, 1em);
+        }
+
+        .badge {
+            display: block;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 7px 18px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 700;
+            margin: 0 auto 18px;
+            width: fit-content;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50%       { transform: scale(1.05); }
+        }
+
+        /* NETLIFY INSTRUCTIONS */
+        .setup-notice {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid #3b82f6;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .setup-notice.visible { display: block; }
+
+        .setup-notice h3 {
+            color: #1d4ed8;
+            font-size: 1.1em;
+            margin-bottom: 12px;
+        }
+
+        .setup-notice p {
+            color: #1e40af;
+            margin-bottom: 10px;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+
+        .steps {
+            counter-reset: step;
+            list-style: none;
+            margin: 12px 0;
+        }
+
+        .steps li {
+            counter-increment: step;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: #1e40af;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .steps li::before {
+            content: counter(step);
+            background: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            min-width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85em;
+            flex-shrink: 0;
+        }
+
+        .netlify-btn {
+            display: block;
+            background: linear-gradient(135deg, #00ad9f, #00796b);
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1em;
+            text-decoration: none;
+            margin-top: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .netlify-btn:active { opacity: 0.85; }
+
+        .dismiss-btn {
+            display: block;
+            background: none;
+            border: 2px solid #3b82f6;
+            color: #1d4ed8;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9em;
+            margin-top: 10px;
+            width: 100%;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .secure-badge {
+            display: none;
+            background: #d1fae5;
+            border: 2px solid #10b981;
+            color: #065f46;
+            padding: 10px 16px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        .secure-badge.visible { display: block; }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 14px 28px;
+            font-size: 1em;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #startBtn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transition: opacity 0.2s;
+        }
+        #startBtn:disabled { opacity: 0.45; cursor: not-allowed; }
+        #startBtn:active:not(:disabled) { opacity: 0.8; }
+        #stopBtn { background: #ef4444; color: white; display: none; }
+        #stopBtn:active { opacity: 0.8; }
+
+        .coaching-panel {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: white;
+            padding: 20px;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            min-height: 200px;
+        }
+
+        .coaching-panel h2 {
+            font-size: clamp(1.2em, 4vw, 1.7em);
+            margin-bottom: 14px;
+            text-align: center;
+            color: #60a5fa;
+        }
+
+        .coach-status {
+            text-align: center;
+            font-size: clamp(1em, 3.5vw, 1.3em);
+            padding: 16px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .coach-status.waiting   { color: #94a3b8; }
+        .coach-status.analyzing { color: #fbbf24; animation: pulse 1.5s infinite; }
+        .coach-status.coaching  { color: #10b981; }
+
+        .adjustment-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+        }
+
+        @media (min-width: 600px) {
+            .adjustment-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        .adjustment-card {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 14px;
+            padding: 16px;
+            transition: all 0.3s;
+        }
+        .adjustment-card.active {
+            background: rgba(16,185,129,0.2);
+            border-color: #10b981;
+            box-shadow: 0 0 16px rgba(16,185,129,0.3);
+        }
+        .adjustment-card.warning {
+            background: rgba(239,68,68,0.2);
+            border-color: #ef4444;
+            box-shadow: 0 0 16px rgba(239,68,68,0.3);
+        }
+
+        .adjustment-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #60a5fa;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .adjustment-icon { font-size: 1.6em; }
+
+        .adjustment-instruction {
+            font-size: 0.95em;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .adjustment-status {
+            margin-top: 8px;
+            padding: 8px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 7px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .status-good       { color: #10b981; }
+        .status-needs-work { color: #f59e0b; }
+        .status-critical   { color: #ef4444; }
+
+        .target-display {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 3px solid #f59e0b;
+            padding: 18px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .target-display h3 { color: #d97706; font-size: 1.1em; margin-bottom: 12px; }
+        .target-formant {
+            display: inline-block;
+            background: white;
+            padding: 10px 18px;
+            margin: 6px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            color: #d97706;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+
+        .progress-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .progress-card {
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            padding: 14px 10px;
+            border-radius: 14px;
+            text-align: center;
+        }
+        .progress-label {
+            color: #667eea;
+            font-weight: 600;
+            font-size: clamp(0.7em, 2.5vw, 0.85em);
+            margin-bottom: 6px;
+        }
+        .progress-value {
+            font-size: clamp(1.3em, 5vw, 2em);
+            font-weight: bold;
+            color: #333;
+        }
+        .progress-bar-container {
+            background: #e5e7eb;
+            height: 8px;
+            border-radius: 4px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #10b981);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .canvas-container {
+            background: #000;
+            border-radius: 14px;
+            padding: 12px;
+            margin-bottom: 16px;
+        }
+        canvas { display: block; width: 100%; height: auto; border-radius: 8px; }
+
+        .quick-tips {
+            background: #f0fdf4;
+            border: 2px solid #10b981;
+            padding: 16px;
+            border-radius: 14px;
+        }
+        .quick-tips h3 { color: #059669; margin-bottom: 12px; font-size: 1.05em; }
+        .tip-item {
+            padding: 9px 12px;
+            margin: 6px 0;
+            background: white;
+            border-left: 4px solid #10b981;
+            border-radius: 5px;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🎯 Formant Tuning Coach</h1>
+    <p class="subtitle">Real-time pharynx, tongue &amp; lip guidance</p>
+    <div class="badge">🔴 Live Coaching</div>
+
+    <!-- FILE:// INSTRUCTIONS (shown when not on a secure origin) -->
+    <div class="setup-notice" id="setupNotice">
+        <h3>📱 One quick step to use on iPhone Safari</h3>
+        <p>Safari on iPhone requires the file to be served over the internet — it won't load mic access from a local file. The fastest way is <strong>Netlify Drop</strong> — free, no account needed, 60 seconds:</p>
+        <ol class="steps">
+            <li>On any computer, go to <strong>app.netlify.com/drop</strong></li>
+            <li>Drag this HTML file onto that page</li>
+            <li>Netlify gives you a free URL instantly (e.g. <em>random-name.netlify.app</em>)</li>
+            <li>Open that URL in Safari on your iPhone 15</li>
+            <li>Tap <strong>Allow</strong> when Safari asks for microphone access</li>
+        </ol>
+        <a class="netlify-btn" href="https://app.netlify.com/drop" target="_blank">
+            🚀 Open Netlify Drop →
+        </a>
+        <p style="margin-top:12px; font-size:0.85em; color:#3b82f6;">
+            <strong>Alternatives:</strong> Upload to GitHub Pages, Google Sites, or any web host and open the link in Safari.
+        </p>
+        <button class="dismiss-btn" onclick="document.getElementById('setupNotice').style.display='none'">
+            Dismiss (mic may not work on file://)
+        </button>
+    </div>
+
+    <div class="secure-badge" id="secureBadge">
+        ✅ Secure origin — tap Start to begin!
+    </div>
+
+    <div class="controls">
+        <button id="startBtn">🎙️ Start Coaching</button>
+        <button id="stopBtn">⏹️ Stop</button>
+    </div>
+
+    <div class="coaching-panel">
+        <h2>🎓 Your Voice Coach</h2>
+        <div class="coach-status waiting" id="coachStatus">
+            Tap Start and sustain "AHHHH" to begin...
+        </div>
+        <div class="adjustment-grid" id="adjustmentGrid"></div>
+    </div>
+
+    <div class="target-display" id="targetDisplay" style="display:none;">
+        <h3>🎯 Target Formants</h3>
+        <div id="targetFormants"></div>
+    </div>
+
+    <div class="progress-section">
+        <div class="progress-card">
+            <div class="progress-label">Alignment</div>
+            <div class="progress-value" id="alignmentScore">0%</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="alignmentBar" style="width:0%"></div>
+            </div>
+        </div>
+        <div class="progress-card">
+            <div class="progress-label">Pharynx</div>
+            <div class="progress-value" id="pharynxScore">--</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="pharynxBar" style="width:0%"></div>
+            </div>
+        </div>
+        <div class="progress-card">
+            <div class="progress-label">Formants</div>
+            <div class="progress-value" id="formantsAligned">0/4</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="formantsBar" style="width:0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="canvas-container">
+        <canvas id="spectrogram" width="800" height="200"></canvas>
+    </div>
+
+    <div class="quick-tips">
+        <h3>💡 How to use:</h3>
+        <div class="tip-item"><strong>🟢 Green:</strong> Working well — keep it up!</div>
+        <div class="tip-item"><strong>🔴 Red:</strong> Needs attention — follow the instruction.</div>
+        <div class="tip-item"><strong>📊 Bars:</strong> Aim for 70%+ on all three.</div>
+        <div class="tip-item"><strong>🎯 One at a time:</strong> Fix red cards first.</div>
+    </div>
+</div>
+
+<script>
+// ── Secure origin check ───────────────────────────────────────────────────────
+const isSecure = (
+    location.protocol === 'https:' ||
+    location.hostname === 'localhost' ||
+    location.hostname === '127.0.0.1' ||
+    location.hostname === '[::1]'
+);
+
+if (!isSecure) {
+    document.getElementById('setupNotice').classList.add('visible');
+    document.getElementById('startBtn').disabled = true;
+} else {
+    document.getElementById('secureBadge').classList.add('visible');
+}
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let audioCtx, analyser, microphone, dataArray, animationId;
+let spectrogramData = [];
+const canvas = document.getElementById('spectrogram');
+const ctx2d  = canvas.getContext('2d');
+
+document.getElementById('startBtn').addEventListener('click', startAnalysis);
+document.getElementById('stopBtn').addEventListener('click', stopAnalysis);
+
+async function startAnalysis() {
+    try {
+        // iOS Safari: AudioContext MUST be created inside a user gesture
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        // iOS often starts the context suspended — resume explicitly
+        if (audioCtx.state === 'suspended') await audioCtx.resume();
+
+        const stream = await navigator.mediaDevices.getUserMedia({
+            audio: {
+                echoCancellation: false,
+                noiseSuppression: false,
+                autoGainControl:  false
+            }
+        });
+
+        analyser   = audioCtx.createAnalyser();
+        microphone = audioCtx.createMediaStreamSource(stream);
+
+        // Smaller FFT = better iOS performance
+        analyser.fftSize = 4096;
+        analyser.smoothingTimeConstant = 0.7;
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+        microphone.connect(analyser);
+
+        document.getElementById('startBtn').style.display = 'none';
+        document.getElementById('stopBtn').style.display  = 'inline-block';
+        document.getElementById('targetDisplay').style.display = 'block';
+
+        draw();
+    } catch (err) {
+        if (err.name === 'NotAllowedError') {
+            alert('Microphone blocked.\n\nGo to: Settings → Safari → Microphone → allow this website, then try again.');
+        } else {
+            alert('Mic error: ' + err.message);
+        }
+    }
+}
+
+function stopAnalysis() {
+    if (animationId) cancelAnimationFrame(animationId);
+    if (microphone) {
+        microphone.disconnect();
+        microphone.mediaStream.getTracks().forEach(t => t.stop());
+    }
+    if (audioCtx) audioCtx.close();
+    spectrogramData = [];
+    document.getElementById('startBtn').style.display = 'inline-block';
+    document.getElementById('stopBtn').style.display  = 'none';
+    document.getElementById('targetDisplay').style.display = 'none';
+    resetDisplays();
+}
+
+function resetDisplays() {
+    const cs = document.getElementById('coachStatus');
+    cs.textContent = 'Tap Start and sustain "AHHHH" to begin...';
+    cs.className   = 'coach-status waiting';
+    document.getElementById('adjustmentGrid').innerHTML    = '';
+    document.getElementById('alignmentScore').textContent  = '0%';
+    document.getElementById('pharynxScore').textContent    = '--';
+    document.getElementById('formantsAligned').textContent = '0/4';
+    ['alignment','pharynx','formants'].forEach(id =>
+        document.getElementById(id + 'Bar').style.width = '0%'
+    );
+}
+
+// ── Draw / animation loop ─────────────────────────────────────────────────────
+function draw() {
+    animationId = requestAnimationFrame(draw);
+    analyser.getByteFrequencyData(dataArray);
+
+    const maxCols = Math.floor(canvas.width / 2);
+    if (spectrogramData.length > maxCols) spectrogramData.shift();
+    spectrogramData.push([...dataArray]);
+
+    ctx2d.fillStyle = '#000';
+    ctx2d.fillRect(0, 0, canvas.width, canvas.height);
+
+    const sliceW = canvas.width / spectrogramData.length;
+    const bw     = (audioCtx.sampleRate / 2) / dataArray.length;
+    const maxBin = Math.min(dataArray.length, Math.floor(5000 / bw));
+
+    for (let i = 0; i < spectrogramData.length; i++) {
+        const slice = spectrogramData[i];
+        for (let j = 0; j < maxBin; j++) {
+            const p = slice[j] / 255;
+            let r, g, b;
+            if      (p < 0.3) { r = 0;                          g = Math.floor(p * 850);       b = 255; }
+            else if (p < 0.7) { r = Math.floor((p-0.3) * 637);  g = 255;                       b = Math.floor((0.7-p) * 637); }
+            else               { r = 255;                         g = Math.floor((1-p) * 850);   b = 0; }
+            ctx2d.fillStyle = `rgb(${r},${g},${b})`;
+            const y = canvas.height - (j / maxBin) * canvas.height;
+            ctx2d.fillRect(i * sliceW, y, sliceW + 0.5, canvas.height / maxBin + 0.5);
+        }
+    }
+
+    coachingAnalysis(dataArray);
+}
+
+// ── Audio analysis ────────────────────────────────────────────────────────────
+function coachingAnalysis(fd) {
+    const nyquist  = audioCtx.sampleRate / 2;
+    const bw       = nyquist / fd.length;
+    const f0       = detectFundamental(fd, bw);
+    const cs       = document.getElementById('coachStatus');
+
+    if (f0 < 60 || f0 > 1000) {
+        cs.textContent = '🎤 Waiting for voice... Sustain "AHHHH"';
+        cs.className   = 'coach-status waiting';
+        return;
+    }
+
+    cs.textContent = `🎵 Analysing at ${Math.round(f0)} Hz...`;
+    cs.className   = 'coach-status analyzing';
+
+    const harmonics  = detectHarmonics(f0, fd, bw);
+    const formants   = detectFormants(fd, bw);
+    const alignments = calculateAlignment(formants, harmonics);
+    const metrics    = calculateMetrics(fd, bw, f0, formants, alignments);
+
+    generateCoaching(f0, formants, alignments, metrics);
+    updateProgress(metrics);
+    updateTargetFormants(f0);
+}
+
+function detectFundamental(fd, bw) {
+    let maxVal = 0, maxBin = 0;
+    const lo = Math.floor(80  / bw);
+    const hi = Math.floor(500 / bw);
+    for (let i = lo; i < hi && i < fd.length; i++) {
+        if (fd[i] > maxVal) { maxVal = fd[i]; maxBin = i; }
+    }
+    return maxVal < 60 ? 0 : maxBin * bw;
+}
+
+function detectHarmonics(f0, fd, bw) {
+    const out = [];
+    for (let h = 1; h <= 15; h++) {
+        const freq = f0 * h;
+        if (freq > 5000) break;
+        const bin = Math.round(freq / bw);
+        if (bin >= fd.length) break;
+        if (fd[bin] > 30) out.push({ number: h, frequency: freq, amplitude: fd[bin] });
+    }
+    return out;
+}
+
+function detectFormants(fd, bw) {
+    const sm = smoothSpectrum(fd);
+    return [
+        { name: 'F1', min:  300, max:  900 },
+        { name: 'F2', min:  900, max: 2500 },
+        { name: 'F3', min: 2000, max: 3500 },
+        { name: 'F4', min: 2500, max: 4000 }
+    ].reduce((acc, r) => {
+        const pk = findPeak(sm, bw, r.min, r.max);
+        if (pk.frequency > 0 && pk.amplitude > 40)
+            acc.push({ name: r.name, frequency: pk.frequency, amplitude: pk.amplitude });
+        return acc;
+    }, []);
+}
+
+function smoothSpectrum(data) {
+    const out = new Uint8Array(data.length);
+    for (let i = 0; i < data.length; i++) {
+        let sum = 0, n = 0;
+        for (let j = -5; j <= 5; j++) {
+            const k = i + j;
+            if (k >= 0 && k < data.length) { sum += data[k]; n++; }
+        }
+        out[i] = Math.round(sum / n);
+    }
+    return out;
+}
+
+function findPeak(data, bw, minF, maxF) {
+    const lo = Math.floor(minF / bw);
+    const hi = Math.floor(maxF / bw);
+    let peakVal = 0, peakBin = 0;
+    for (let i = lo; i <= hi && i < data.length; i++) {
+        if (data[i] > peakVal) { peakVal = data[i]; peakBin = i; }
+    }
+    return { frequency: peakBin * bw, amplitude: peakVal };
+}
+
+function calculateAlignment(formants, harmonics) {
+    return harmonics.map(h => {
+        let best = null, bestDist = Infinity;
+        formants.forEach(f => {
+            const d = Math.abs(f.frequency - h.frequency);
+            if ((d / h.frequency) * 100 < 20 && d < bestDist) { bestDist = d; best = f; }
+        });
+        const pct    = best ? (bestDist / h.frequency) * 100 : 100;
+        const status = pct <= 5 ? 'perfect' : pct <= 10 ? 'good' : pct <= 20 ? 'near' : 'none';
+        return { harmonic: h, formant: best, distance: bestDist, percentDiff: pct, status };
+    });
+}
+
+function calculateMetrics(fd, bw, f0, formants, alignments) {
+    const low  = energy(fd, bw,   80,  500);
+    const high = energy(fd, bw, 2000, 4000);
+    let alignmentScore = 0;
+    alignments.forEach(a => {
+        if      (a.status === 'perfect') alignmentScore += 10;
+        else if (a.status === 'good')    alignmentScore += 6;
+        else if (a.status === 'near')    alignmentScore += 3;
+    });
+    return {
+        pharynxScore:     Math.min(100, (low / 255) * 150),
+        alignmentScore:   Math.min(100, alignmentScore),
+        formantsDetected: formants.length,
+        alignedCount:     alignments.filter(a => a.status === 'perfect' || a.status === 'good').length,
+        highEnergy:       high,
+        f0
+    };
+}
+
+function energy(fd, bw, minF, maxF) {
+    const lo = Math.floor(minF / bw), hi = Math.floor(maxF / bw);
+    let sum = 0, n = 0;
+    for (let i = lo; i <= hi && i < fd.length; i++) { sum += fd[i]; n++; }
+    return n > 0 ? sum / n : 0;
+}
+
+// ── Coaching cards ────────────────────────────────────────────────────────────
+function generateCoaching(f0, formants, alignments, metrics) {
+    const grid = document.getElementById('adjustmentGrid');
+    const cs   = document.getElementById('coachStatus');
+
+    const adjs = [
+        pharynxCard(metrics),
+        tongueCard(formants, f0),
+        lipsCard(formants, metrics)
+    ];
+
+    cs.textContent = metrics.alignmentScore < 40
+        ? '🔴 Poor alignment — follow the red cards!'
+        : metrics.alignmentScore < 70
+        ? '🟡 Getting better — keep adjusting!'
+        : '🟢 Excellent formant tuning!';
+    cs.className = 'coach-status coaching';
+
+    grid.innerHTML = adjs.map(a => `
+        <div class="adjustment-card ${a.cardClass}">
+            <div class="adjustment-title">
+                <span class="adjustment-icon">${a.icon}</span>
+                <span>${a.area}</span>
+            </div>
+            <div class="adjustment-instruction">${a.instruction}</div>
+            <div class="adjustment-status status-${a.status}">${a.statusText}</div>
+        </div>`).join('');
+}
+
+function pharynxCard(m) {
+    if (m.pharynxScore < 50) return {
+        area:'Pharynx', icon:'🗣️', status:'critical', cardClass:'warning',
+        instruction:'OPEN YOUR THROAT MORE! Drop your jaw, think "yawn". Tongue root forward.',
+        statusText:`❌ ${Math.round(m.pharynxScore)}% open`
+    };
+    if (m.pharynxScore < 70) return {
+        area:'Pharynx', icon:'🗣️', status:'needs-work', cardClass:'',
+        instruction:'Open throat a bit more. Maintain that yawn feeling.',
+        statusText:`⚠️ ${Math.round(m.pharynxScore)}% open`
+    };
+    return {
+        area:'Pharynx', icon:'🗣️', status:'good', cardClass:'active',
+        instruction:'Perfect! Throat wide open — maintain this!',
+        statusText:`✅ ${Math.round(m.pharynxScore)}% open`
+    };
+}
+
+function tongueCard(formants, f0) {
+    const f1  = formants.find(f => f.name === 'F1');
+    const f2  = formants.find(f => f.name === 'F2');
+    const eF1 = f0 < 150 ? 700 : f0 < 200 ? 650 : 600;
+    const eF2 = f0 < 150 ? 1200 : f0 < 200 ? 1100 : 1000;
+
+    if (!f1 || !f2) return {
+        area:'Tongue', icon:'👅', status:'critical', cardClass:'warning',
+        instruction:'ADJUST TONGUE! Tip at lower teeth, back not bunched, arch in middle.',
+        statusText:'❌ Formants not detected'
+    };
+    if (Math.abs(f1.frequency - eF1) > 200 || Math.abs(f2.frequency - eF2) > 400) {
+        if (f1.frequency < eF1 - 100) return {
+            area:'Tongue', icon:'👅', status:'needs-work', cardClass:'',
+            instruction:'Raise tongue slightly — F1 too low. Arch the middle up more.',
+            statusText:'⚠️ F1 too low'
+        };
+        return {
+            area:'Tongue', icon:'👅', status:'needs-work', cardClass:'',
+            instruction:'Lower tongue slightly — F1 too high. Drop jaw, relax.',
+            statusText:'⚠️ F1 too high'
+        };
+    }
+    return {
+        area:'Tongue', icon:'👅', status:'good', cardClass:'active',
+        instruction:'Great tongue position! Keep it exactly here.',
+        statusText:`✅ F1:${Math.round(f1.frequency)}Hz F2:${Math.round(f2.frequency)}Hz`
+    };
+}
+
+function lipsCard(formants, metrics) {
+    const f3 = formants.find(f => f.name === 'F3');
+    const f4 = formants.find(f => f.name === 'F4');
+    const strong = (f3?.amplitude > 100 || f4?.amplitude > 100);
+
+    if (!f3 && !f4 && metrics.highEnergy <= 80) return {
+        area:'Lips', icon:'💋', status:'critical', cardClass:'warning',
+        instruction:'ADJUST LIPS! Round forward OR open wider vertically.',
+        statusText:'❌ No resonance boost'
+    };
+    if (strong) return {
+        area:'Lips', icon:'💋', status:'good', cardClass:'active',
+        instruction:"Perfect! Narrow forward lips creating Singer's Formant ring.",
+        statusText:`✅ Singer's Formant at ${Math.round(f3?.frequency || f4?.frequency)}Hz`
+    };
+    if (metrics.highEnergy > 80) return {
+        area:'Lips', icon:'💋', status:'good', cardClass:'active',
+        instruction:'Great megaphone position! Vertical opening creating bright resonance.',
+        statusText:'✅ High freq resonance strong'
+    };
+    return {
+        area:'Lips', icon:'💋', status:'needs-work', cardClass:'',
+        instruction:'Try rounding forward more OR opening vertically wider.',
+        statusText:'⚠️ Experiment with lip shape'
+    };
+}
+
+// ── Progress bars ─────────────────────────────────────────────────────────────
+function updateProgress(m) {
+    document.getElementById('alignmentScore').textContent  = Math.round(m.alignmentScore) + '%';
+    document.getElementById('alignmentBar').style.width    = m.alignmentScore + '%';
+    document.getElementById('pharynxScore').textContent    = Math.round(m.pharynxScore) + '%';
+    document.getElementById('pharynxBar').style.width      = m.pharynxScore + '%';
+    document.getElementById('formantsAligned').textContent = `${m.alignedCount}/${m.formantsDetected}`;
+    const pct = m.formantsDetected > 0 ? (m.alignedCount / m.formantsDetected) * 100 : 0;
+    document.getElementById('formantsBar').style.width = pct + '%';
+}
+
+function updateTargetFormants(f0) {
+    const eF1 = f0 < 150 ? 700 : f0 < 200 ? 650 : 600;
+    const eF2 = f0 < 150 ? 1200 : f0 < 200 ? 1100 : 1000;
+    document.getElementById('targetFormants').innerHTML = `
+        <div class="target-formant">F1 ~${eF1}Hz</div>
+        <div class="target-formant">F2 ~${eF2}Hz</div>
+        <div class="target-formant">F3 ~2800Hz</div>
+        <div class="target-formant">F4 ~3400Hz</div>`;
+}
+</script>
+</body>
+</html>
