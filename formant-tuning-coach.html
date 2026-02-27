@@ -9,19 +9,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg:       #080c14;
-            --surface:  #0f1624;
-            --card:     #151e30;
-            --border:   #1e2d47;
-            --accent:   #00d4ff;
-            --accent2:  #7c3aed;
-            --green:    #00e896;
-            --yellow:   #ffd600;
-            --red:      #ff3d71;
-            --text:     #e8f0fe;
-            --muted:    #6b7fa3;
-            --font:     'Outfit', sans-serif;
-            --mono:     'JetBrains Mono', monospace;
+            --bg:      #080c14;
+            --surface: #0f1624;
+            --card:    #151e30;
+            --border:  #1e2d47;
+            --accent:  #00d4ff;
+            --accent2: #7c3aed;
+            --green:   #00e896;
+            --yellow:  #ffd600;
+            --red:     #ff3d71;
+            --text:    #e8f0fe;
+            --muted:   #6b7fa3;
+            --font:    'Outfit', sans-serif;
+            --mono:    'JetBrains Mono', monospace;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,7 +35,6 @@
             overflow-x: hidden;
         }
 
-        /* Background grid */
         body::before {
             content: '';
             position: fixed;
@@ -56,11 +55,10 @@
             padding: 20px 16px 40px;
         }
 
-        /* ── HEADER ── */
         header {
             text-align: center;
-            margin-bottom: 24px;
-            padding: 30px 20px 24px;
+            margin-bottom: 20px;
+            padding: 28px 20px 22px;
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 24px;
@@ -79,7 +77,7 @@
         }
 
         header h1 {
-            font-size: clamp(1.6em, 5vw, 2.4em);
+            font-size: clamp(1.5em, 5vw, 2.2em);
             font-weight: 900;
             letter-spacing: -1px;
             background: linear-gradient(135deg, var(--accent), var(--accent2));
@@ -89,11 +87,7 @@
             margin-bottom: 6px;
         }
 
-        header p {
-            color: var(--muted);
-            font-size: 0.9em;
-            font-weight: 300;
-        }
+        header p { color: var(--muted); font-size: 0.88em; }
 
         .live-dot {
             display: inline-flex;
@@ -104,13 +98,12 @@
             color: var(--red);
             padding: 5px 14px;
             border-radius: 20px;
-            font-size: 0.78em;
+            font-size: 0.75em;
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
-            margin-top: 12px;
+            margin-top: 10px;
         }
-
         .live-dot::before {
             content: '';
             width: 7px; height: 7px;
@@ -118,13 +111,24 @@
             border-radius: 50%;
             animation: blink 1.2s infinite;
         }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50%       { opacity: 0.2; }
+        /* VOICE TYPE BADGE */
+        .voice-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(0,212,255,0.08);
+            border: 1px solid rgba(0,212,255,0.25);
+            border-radius: 12px;
+            padding: 10px 16px;
+            margin-bottom: 16px;
+            font-size: 0.88em;
+            color: var(--accent);
+            font-weight: 600;
         }
 
-        /* ── SECURE NOTICE ── */
         .secure-badge {
             display: none;
             background: rgba(0,232,150,0.1);
@@ -178,7 +182,7 @@
             touch-action: manipulation;
         }
 
-        /* ── CONTROLS ── */
+        /* CONTROLS */
         .controls {
             display: flex;
             gap: 10px;
@@ -187,9 +191,9 @@
         }
 
         .btn {
-            padding: 14px 28px;
+            padding: 16px 32px;
             font-family: var(--font);
-            font-size: 0.95em;
+            font-size: 1em;
             font-weight: 700;
             border: none;
             border-radius: 14px;
@@ -199,21 +203,14 @@
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
             transition: opacity 0.2s, transform 0.1s;
+            min-height: 54px;
         }
         .btn:active { opacity: 0.75; transform: scale(0.97); }
         .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+        #startBtn { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: white; }
+        #stopBtn  { background: var(--red); color: white; display: none; }
 
-        #startBtn {
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            color: white;
-        }
-        #stopBtn {
-            background: var(--red);
-            color: white;
-            display: none;
-        }
-
-        /* ── SOUND SELECTOR ── */
+        /* SOUND SELECTOR */
         .selector-section {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -223,12 +220,12 @@
         }
 
         .selector-section h2 {
-            font-size: 0.75em;
+            font-size: 0.72em;
             font-weight: 700;
             letter-spacing: 3px;
             text-transform: uppercase;
             color: var(--accent);
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
         .tab-row {
@@ -239,19 +236,23 @@
 
         .tab {
             flex: 1;
-            padding: 10px;
+            padding: 13px;
             background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: 12px;
             color: var(--muted);
             font-family: var(--font);
             font-weight: 700;
-            font-size: 0.85em;
+            font-size: 0.9em;
             cursor: pointer;
             text-align: center;
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
             transition: all 0.2s;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .tab.active {
             background: linear-gradient(135deg, rgba(0,212,255,0.2), rgba(124,58,237,0.2));
@@ -259,49 +260,55 @@
             color: var(--accent);
         }
 
+        /* BIGGER SOUND BUTTONS */
         .sound-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
-            gap: 8px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        @media (min-width: 500px) {
+            .sound-grid { grid-template-columns: repeat(5, 1fr); }
         }
 
         .sound-btn {
             background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 10px 4px;
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 8px;
             text-align: center;
             cursor: pointer;
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
             transition: all 0.2s;
+            min-height: 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
         }
-
-        .sound-btn:active { transform: scale(0.93); }
-
+        .sound-btn:active { transform: scale(0.92); }
         .sound-btn.selected {
             background: linear-gradient(135deg, rgba(0,212,255,0.2), rgba(124,58,237,0.2));
             border-color: var(--accent);
         }
 
         .sound-symbol {
-            font-size: 1.4em;
+            font-size: 1.3em;
             font-weight: 900;
             color: var(--text);
-            display: block;
             line-height: 1;
-            margin-bottom: 3px;
         }
         .sound-btn.selected .sound-symbol { color: var(--accent); }
 
         .sound-example {
-            font-size: 0.65em;
+            font-size: 0.62em;
             color: var(--muted);
-            display: block;
         }
-        .sound-btn.selected .sound-example { color: var(--accent); }
+        .sound-btn.selected .sound-example { color: var(--accent); opacity: 0.8; }
 
-        /* ── COACHING PANEL ── */
+        /* COACHING */
         .coaching-panel {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -310,9 +317,29 @@
             margin-bottom: 20px;
         }
 
+        .current-sound {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin-bottom: 14px;
+        }
+        .current-sound-symbol {
+            font-size: 2.2em;
+            font-weight: 900;
+            color: var(--accent);
+            min-width: 60px;
+            text-align: center;
+        }
+        .current-sound-name { font-weight: 700; color: var(--text); font-size: 1em; }
+        .current-sound-type { color: var(--muted); font-size: 0.78em; margin-top: 2px; }
+
         .coach-status {
             text-align: center;
-            font-size: clamp(0.95em, 3vw, 1.2em);
+            font-size: clamp(0.9em, 3vw, 1.15em);
             padding: 16px;
             background: var(--card);
             border-radius: 12px;
@@ -324,11 +351,7 @@
         .coach-status.waiting   { color: var(--muted); }
         .coach-status.analyzing { color: var(--yellow); animation: pulse 1.5s infinite; }
         .coach-status.coaching  { color: var(--green); }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50%       { opacity: 0.6; }
-        }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
 
         .adjustment-grid {
             display: grid;
@@ -355,12 +378,10 @@
             border-color: var(--red);
             background: rgba(255,61,113,0.07);
             box-shadow: 0 0 20px rgba(255,61,113,0.1);
-            animation: shake 0.4s;
         }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25%       { transform: translateX(-6px); }
-            75%       { transform: translateX(6px); }
+        .adjustment-card.caution {
+            border-color: var(--yellow);
+            background: rgba(255,214,0,0.05);
         }
 
         .adjustment-title {
@@ -372,29 +393,54 @@
             align-items: center;
             gap: 8px;
         }
-        .adjustment-icon { font-size: 1.4em; }
+        .adjustment-icon { font-size: 1.5em; }
 
         .adjustment-instruction {
             font-size: 0.88em;
-            line-height: 1.5;
+            line-height: 1.55;
             color: var(--text);
-            opacity: 0.85;
+            opacity: 0.9;
         }
 
         .adjustment-status {
-            margin-top: 8px;
-            padding: 7px 10px;
+            margin-top: 10px;
+            padding: 8px 10px;
             background: rgba(0,0,0,0.3);
             border-radius: 8px;
             font-weight: 700;
-            font-size: 0.82em;
+            font-size: 0.8em;
             font-family: var(--mono);
         }
         .status-good       { color: var(--green); }
         .status-needs-work { color: var(--yellow); }
         .status-critical   { color: var(--red); }
 
-        /* ── TARGET FORMANTS ── */
+        /* SMOOTHING INDICATOR */
+        .smoothing-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 16px;
+            font-size: 0.8em;
+            color: var(--muted);
+        }
+        .smoothing-dots {
+            display: flex;
+            gap: 4px;
+        }
+        .dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--border);
+            transition: background 0.3s;
+        }
+        .dot.filled { background: var(--accent); }
+
+        /* TARGET */
         .target-display {
             background: var(--surface);
             border: 1px solid rgba(255,214,0,0.3);
@@ -405,7 +451,7 @@
         }
         .target-display h3 {
             color: var(--yellow);
-            font-size: 0.75em;
+            font-size: 0.72em;
             letter-spacing: 3px;
             text-transform: uppercase;
             margin-bottom: 12px;
@@ -421,20 +467,24 @@
             border: 1px solid rgba(255,214,0,0.25);
             padding: 8px 14px;
             border-radius: 8px;
-            font-size: 0.85em;
+            font-size: 0.82em;
             font-weight: 700;
             color: var(--yellow);
             font-family: var(--mono);
         }
+        .target-formant.in-range {
+            border-color: var(--green);
+            color: var(--green);
+            background: rgba(0,232,150,0.07);
+        }
 
-        /* ── PROGRESS ── */
+        /* PROGRESS */
         .progress-section {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
             margin-bottom: 20px;
         }
-
         .progress-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -445,13 +495,13 @@
         .progress-label {
             color: var(--muted);
             font-weight: 600;
-            font-size: clamp(0.65em, 2vw, 0.78em);
+            font-size: clamp(0.62em, 2vw, 0.75em);
             letter-spacing: 1px;
             text-transform: uppercase;
             margin-bottom: 6px;
         }
         .progress-value {
-            font-size: clamp(1.3em, 4vw, 1.9em);
+            font-size: clamp(1.2em, 4vw, 1.8em);
             font-weight: 900;
             color: var(--text);
             font-family: var(--mono);
@@ -467,20 +517,19 @@
             height: 100%;
             background: linear-gradient(90deg, var(--accent), var(--green));
             border-radius: 3px;
-            transition: width 0.5s ease;
+            transition: width 0.6s ease;
         }
 
-        /* ── SPECTROGRAM ── */
+        /* SPECTROGRAM */
         .canvas-wrap {
             background: #000;
             border: 1px solid var(--border);
             border-radius: 16px;
             padding: 12px;
             margin-bottom: 20px;
-            position: relative;
         }
         .canvas-label {
-            font-size: 0.7em;
+            font-size: 0.68em;
             color: var(--muted);
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -488,7 +537,7 @@
         }
         canvas { display: block; width: 100%; height: auto; border-radius: 8px; }
 
-        /* ── TIPS ── */
+        /* TIPS */
         .tips {
             background: var(--surface);
             border: 1px solid rgba(0,232,150,0.2);
@@ -498,12 +547,12 @@
         .tips h3 {
             color: var(--green);
             margin-bottom: 12px;
-            font-size: 0.75em;
+            font-size: 0.72em;
             letter-spacing: 3px;
             text-transform: uppercase;
         }
         .tip-item {
-            padding: 9px 12px;
+            padding: 10px 14px;
             margin: 6px 0;
             background: var(--card);
             border-left: 3px solid var(--green);
@@ -513,27 +562,6 @@
             color: var(--text);
             opacity: 0.85;
         }
-
-        /* ── CURRENT SOUND DISPLAY ── */
-        .current-sound {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 8px 16px;
-            margin-bottom: 16px;
-            font-size: 0.9em;
-        }
-        .current-sound-symbol {
-            font-size: 1.8em;
-            font-weight: 900;
-            color: var(--accent);
-        }
-        .current-sound-info { text-align: left; }
-        .current-sound-name { font-weight: 700; color: var(--text); font-size: 0.95em; }
-        .current-sound-type { color: var(--muted); font-size: 0.78em; }
     </style>
 </head>
 <body>
@@ -545,14 +573,13 @@
         <div class="live-dot">Live Coaching</div>
     </header>
 
-    <!-- FILE:// WARNING -->
     <div class="setup-notice" id="setupNotice">
         <h3>📱 Hosting required for iPhone Safari mic access</h3>
-        <p>Safari on iPhone requires HTTPS. Upload this file to Netlify Drop (free, 60 seconds):</p>
+        <p>Safari on iPhone requires HTTPS. Upload to Netlify Drop — free, 60 seconds:</p>
         <ol>
             <li>On a computer go to <strong>app.netlify.com/drop</strong></li>
             <li>Drag this HTML file onto the page</li>
-            <li>Copy the free URL and open it in Safari on iPhone</li>
+            <li>Copy the URL and open in Safari on iPhone</li>
             <li>Tap Allow for microphone</li>
         </ol>
         <a class="netlify-btn" href="https://app.netlify.com/drop" target="_blank">🚀 Open Netlify Drop →</a>
@@ -561,7 +588,8 @@
 
     <div class="secure-badge" id="secureBadge">✅ Secure origin — tap Start to begin!</div>
 
-    <!-- CONTROLS -->
+    <div class="voice-badge">🎙️ Optimised for Male Voice &nbsp;·&nbsp; Wider targets &nbsp;·&nbsp; Smoothed detection</div>
+
     <div class="controls">
         <button class="btn" id="startBtn">🎙️ Start Coaching</button>
         <button class="btn" id="stopBtn">⏹️ Stop</button>
@@ -571,32 +599,44 @@
     <div class="selector-section">
         <h2>Select Sound to Practice</h2>
         <div class="tab-row">
-            <div class="tab active" id="tabVowels" onclick="switchTab('vowels')">Vowels</div>
-            <div class="tab" id="tabConsonants" onclick="switchTab('consonants')">Consonants</div>
+            <div class="tab active" id="tabVowels"     onclick="switchTab('vowels')">🗣️ Vowels</div>
+            <div class="tab"        id="tabConsonants" onclick="switchTab('consonants')">💨 Consonants</div>
         </div>
         <div class="sound-grid" id="soundGrid"></div>
     </div>
 
-    <!-- COACHING -->
+    <!-- COACHING PANEL -->
     <div class="coaching-panel">
-        <div style="text-align:center; margin-bottom:14px;">
-            <div class="current-sound" id="currentSoundDisplay">
-                <span class="current-sound-symbol" id="csSymbol">AH</span>
-                <div class="current-sound-info">
-                    <div class="current-sound-name" id="csName">Open vowel "AH"</div>
-                    <div class="current-sound-type" id="csType">Vowel · as in "father"</div>
-                </div>
+        <div class="current-sound">
+            <span class="current-sound-symbol" id="csSymbol">AH</span>
+            <div>
+                <div class="current-sound-name" id="csName">Open vowel "AH"</div>
+                <div class="current-sound-type" id="csType">Low vowel · as in "father"</div>
             </div>
         </div>
+
+        <!-- Smoothing indicator -->
+        <div class="smoothing-bar" id="smoothingBar">
+            <span>Averaging readings:</span>
+            <div class="smoothing-dots" id="smoothingDots">
+                <div class="dot" id="d0"></div>
+                <div class="dot" id="d1"></div>
+                <div class="dot" id="d2"></div>
+                <div class="dot" id="d3"></div>
+                <div class="dot" id="d4"></div>
+            </div>
+            <span id="smoothingLabel">warming up...</span>
+        </div>
+
         <div class="coach-status waiting" id="coachStatus">
-            Select a sound above, tap Start, then produce that sound...
+            Select a sound above, tap Start, then sustain that sound clearly...
         </div>
         <div class="adjustment-grid" id="adjustmentGrid"></div>
     </div>
 
     <!-- TARGETS -->
     <div class="target-display" id="targetDisplay" style="display:none;">
-        <h3>Target Formants</h3>
+        <h3>Target Formants · Male Voice</h3>
         <div class="target-formants-row" id="targetFormants"></div>
     </div>
 
@@ -617,7 +657,7 @@
             </div>
         </div>
         <div class="progress-card">
-            <div class="progress-label">Formants</div>
+            <div class="progress-label">On Target</div>
             <div class="progress-value" id="formantsAligned">0/4</div>
             <div class="progress-bar-container">
                 <div class="progress-bar" id="formantsBar" style="width:0%"></div>
@@ -634,187 +674,214 @@
     <!-- TIPS -->
     <div class="tips">
         <h3>How to use</h3>
-        <div class="tip-item"><strong>🟢 Green card:</strong> Great — keep it up!</div>
-        <div class="tip-item"><strong>🔴 Red card:</strong> Fix this first — follow the instruction.</div>
-        <div class="tip-item"><strong>📊 Bars:</strong> Aim for 70%+ on all three metrics.</div>
-        <div class="tip-item"><strong>🔄 Switch sounds:</strong> Tap any vowel or consonant above to change target.</div>
-        <div class="tip-item"><strong>🎯 Consonants:</strong> Hold the sound as long as possible — use sustained versions like MMM, SSS, NNN.</div>
+        <div class="tip-item"><strong>🟢 Green:</strong> You're hitting the target — keep it up!</div>
+        <div class="tip-item"><strong>🟡 Yellow:</strong> Getting close — small adjustment needed.</div>
+        <div class="tip-item"><strong>🔴 Red:</strong> Fix this first — follow the instruction.</div>
+        <div class="tip-item"><strong>⏳ Wait for 5 dots:</strong> The app averages 5 readings before coaching — hold your sound steady for 3–4 seconds.</div>
+        <div class="tip-item"><strong>🎯 Consonants:</strong> Sustain as long as possible — MMM, SSS, NNN, RRR etc.</div>
+        <div class="tip-item"><strong>📊 Aim for 70%+</strong> on all three bars for a great result.</div>
     </div>
 
 </div>
 
 <script>
 // ═══════════════════════════════════════════════════════════
-// SOUND DATABASE — Vowels + Consonants
-// F1, F2, F3, F4 targets in Hz. null = not critical for that sound.
+// MALE VOICE SOUND DATABASE
+// Wider ranges tuned for adult male voices (F0 ~85-180Hz)
+// All formant ranges expanded by ~15-20% vs generic values
 // ═══════════════════════════════════════════════════════════
 const SOUNDS = {
     vowels: [
-        { symbol:'AH', name:'Open "AH"',    example:'father',  type:'Low vowel',
-          f1:[700,900], f2:[1000,1300], f3:[2500,3000], f4:[3200,3800],
-          pharynx:'open', tongue:'low-back', lips:'neutral',
-          coachTongue:'Keep tongue low and relaxed at back of mouth.',
-          coachLips:'Lips relaxed and slightly open — not rounded.' },
+        { symbol:'AH', name:'Open "AH"',      example:'father',
+          type:'Low vowel',
+          f1:[550,950], f2:[900,1400], f3:[2200,3000], f4:[3000,3900],
+          coachTongue:'Keep tongue low and relaxed. Let jaw drop naturally.',
+          coachLips:'Lips relaxed and open — not rounded, not spread.' },
 
-        { symbol:'EE', name:'Close "EE"',   example:'see',     type:'High front vowel',
-          f1:[200,400], f2:[2200,2800], f3:[2800,3400], f4:[3500,4000],
-          pharynx:'moderate', tongue:'high-front', lips:'spread',
-          coachTongue:'Raise tongue high and push forward toward top front teeth.',
-          coachLips:'Spread lips wide — think of a big smile.' },
+        { symbol:'EE', name:'Close "EE"',     example:'see',
+          type:'High front vowel',
+          f1:[170,420], f2:[1900,2800], f3:[2600,3400], f4:[3300,4000],
+          coachTongue:'Push tongue high and forward toward your top front teeth.',
+          coachLips:'Spread lips wide into a big smile shape.' },
 
-        { symbol:'OO', name:'Close "OO"',   example:'food',    type:'High back vowel',
-          f1:[200,400], f2:[600,900],  f3:[2200,2600], f4:[3000,3500],
-          pharynx:'open', tongue:'high-back', lips:'rounded',
+        { symbol:'OO', name:'Close "OO"',     example:'food',
+          type:'High back vowel',
+          f1:[170,420], f2:[500,950],  f3:[2000,2700], f4:[2800,3600],
           coachTongue:'Raise back of tongue toward soft palate.',
-          coachLips:'Round lips into a small tight circle and push forward.' },
+          coachLips:'Round lips into a small tight circle — push forward.' },
 
-        { symbol:'OH', name:'Mid "OH"',     example:'go',      type:'Mid back vowel',
-          f1:[400,600], f2:[700,1000], f3:[2300,2700], f4:[3100,3600],
-          pharynx:'open', tongue:'mid-back', lips:'rounded',
+        { symbol:'OH', name:'Mid "OH"',       example:'go',
+          type:'Mid back vowel',
+          f1:[350,650], f2:[600,1050], f3:[2100,2800], f4:[2900,3700],
           coachTongue:'Tongue mid-height, pulled slightly back.',
-          coachLips:'Round lips into an O shape — not too tight.' },
+          coachLips:'Round lips into a relaxed O — not too tight.' },
 
-        { symbol:'AY', name:'Mid "AY"',     example:'day',     type:'Mid front vowel',
-          f1:[400,600], f2:[1800,2200], f3:[2600,3100], f4:[3300,3800],
-          pharynx:'moderate', tongue:'mid-front', lips:'spread',
-          coachTongue:'Tongue mid-high and forward — glide from E toward EE.',
-          coachLips:'Slightly spread lips — relaxed smile.' },
+        { symbol:'AY', name:'Mid "AY"',       example:'day',
+          type:'Mid front vowel',
+          f1:[350,650], f2:[1600,2300], f3:[2400,3100], f4:[3100,3900],
+          coachTongue:'Tongue mid-high and forward — glide toward EE.',
+          coachLips:'Slightly spread — relaxed smile.' },
 
-        { symbol:'EH', name:'Mid "EH"',     example:'bed',     type:'Mid front vowel',
-          f1:[500,700], f2:[1700,2100], f3:[2500,3000], f4:[3200,3700],
-          pharynx:'moderate', tongue:'mid-front', lips:'neutral',
+        { symbol:'EH', name:'Mid "EH"',       example:'bed',
+          type:'Mid front vowel',
+          f1:[450,750], f2:[1500,2100], f3:[2300,3000], f4:[3000,3800],
           coachTongue:'Tongue mid-height and slightly forward.',
           coachLips:'Lips neutral — not spread, not rounded.' },
 
-        { symbol:'IH', name:'Near "IH"',    example:'bit',     type:'Near-high front',
-          f1:[300,500], f2:[1900,2300], f3:[2700,3200], f4:[3400,3900],
-          pharynx:'moderate', tongue:'high-front-lax', lips:'neutral',
-          coachTongue:'Tongue high-front but relaxed — not as tense as EE.',
-          coachLips:'Lips neutral — very slight spread.' },
+        { symbol:'IH', name:'Near "IH"',      example:'bit',
+          type:'Near-high front',
+          f1:[270,530], f2:[1700,2300], f3:[2500,3200], f4:[3200,4000],
+          coachTongue:'Tongue high-front but relaxed — less tense than EE.',
+          coachLips:'Very slight spread — nearly neutral.' },
 
-        { symbol:'UH', name:'Mid "UH"',     example:'cup',     type:'Mid central vowel',
-          f1:[500,700], f2:[1000,1400], f3:[2400,2900], f4:[3200,3700],
-          pharynx:'open', tongue:'mid-central', lips:'neutral',
-          coachTongue:'Tongue relaxed in center of mouth — no tension.',
+        { symbol:'UH', name:'Mid "UH"',       example:'cup',
+          type:'Mid central vowel',
+          f1:[450,750], f2:[900,1450], f3:[2200,2900], f4:[3000,3800],
+          coachTongue:'Tongue completely relaxed in center of mouth.',
           coachLips:'Lips relaxed and neutral — natural resting position.' },
 
-        { symbol:'AW', name:'Open "AW"',    example:'caught',  type:'Low back rounded',
-          f1:[600,800], f2:[700,1000], f3:[2300,2700], f4:[3000,3500],
-          pharynx:'open', tongue:'low-back', lips:'rounded',
-          coachTongue:'Tongue low and pulled back — like a yawn.',
+        { symbol:'AW', name:'Open "AW"',      example:'caught',
+          type:'Low back rounded',
+          f1:[500,800], f2:[600,1050], f3:[2100,2800], f4:[2800,3700],
+          coachTongue:'Tongue low and pulled back — like beginning of a yawn.',
           coachLips:'Round lips loosely — not as tight as OO.' },
 
-        { symbol:'OI', name:'Diphthong "OI"', example:'boy',   type:'Diphthong',
-          f1:[500,700], f2:[700,1100], f3:[2300,2700], f4:[3000,3500],
-          pharynx:'open', tongue:'glide', lips:'rounded-to-spread',
-          coachTongue:'Start with OH tongue position then glide toward EE.',
+        { symbol:'ER', name:'R-colored "ER"', example:'bird',
+          type:'R-colored vowel',
+          f1:[350,650], f2:[1100,1750], f3:[1500,2100], f4:[2800,3600],
+          coachTongue:'Curl tongue tip back (retroflex) — classic R shape.',
+          coachLips:'Lips neutral with very slight rounding.' },
+
+        { symbol:'OI', name:'Diphthong "OI"', example:'boy',
+          type:'Diphthong',
+          f1:[450,750], f2:[600,1100], f3:[2100,2800], f4:[2800,3600],
+          coachTongue:'Start with OH tongue then glide toward EE.',
           coachLips:'Start rounded then spread as you glide.' },
 
-        { symbol:'OW', name:'Diphthong "OW"', example:'now',   type:'Diphthong',
-          f1:[700,900], f2:[1000,1400], f3:[2400,2800], f4:[3100,3600],
-          pharynx:'open', tongue:'glide', lips:'open-to-rounded',
+        { symbol:'OW', name:'Diphthong "OW"', example:'now',
+          type:'Diphthong',
+          f1:[600,950], f2:[900,1450], f3:[2200,2900], f4:[2900,3700],
           coachTongue:'Start with AH then glide back and up toward OO.',
           coachLips:'Start open then round lips as you glide.' },
-
-        { symbol:'ER', name:'R-colored "ER"', example:'bird',  type:'R-colored vowel',
-          f1:[400,600], f2:[1300,1700], f3:[1700,2100], f4:[3000,3500],
-          pharynx:'moderate', tongue:'mid-retroflex', lips:'neutral',
-          coachTongue:'Curl tongue tip back or bunch the tongue body — classic R shape.',
-          coachLips:'Lips neutral — slight rounding optional.' },
     ],
 
     consonants: [
-        { symbol:'MMM', name:'Nasal "M"',    example:'moon',   type:'Bilabial nasal',
-          f1:[200,400], f2:[900,1200], f3:[2000,2500], f4:[null,null],
-          pharynx:'moderate', tongue:'neutral', lips:'closed',
-          coachTongue:'Tongue relaxed — it does not do much for M.',
-          coachLips:'Lips firmly closed. Air goes through nose.' },
+        { symbol:'MMM', name:'Nasal "M"',      example:'moon',
+          type:'Bilabial nasal',
+          f1:[180,420], f2:[800,1250], f3:[1800,2600], f4:[null,null],
+          coachTongue:'Tongue relaxed — it does little for M.',
+          coachLips:'Lips firmly closed. Let air go through your nose.' },
 
-        { symbol:'NNN', name:'Nasal "N"',    example:'nose',   type:'Alveolar nasal',
-          f1:[200,400], f2:[1100,1500], f3:[2200,2700], f4:[null,null],
-          pharynx:'moderate', tongue:'alveolar', lips:'open',
-          coachTongue:'Tongue tip presses against ridge behind upper front teeth.',
-          coachLips:'Lips slightly open. Air through nose.' },
+        { symbol:'NNN', name:'Nasal "N"',      example:'nose',
+          type:'Alveolar nasal',
+          f1:[180,420], f2:[1000,1550], f3:[2000,2700], f4:[null,null],
+          coachTongue:'Press tongue tip firmly against the ridge behind upper front teeth.',
+          coachLips:'Lips slightly open. Air goes through nose.' },
 
-        { symbol:'NGG', name:'Nasal "NG"',   example:'sing',   type:'Velar nasal',
-          f1:[200,400], f2:[800,1100], f3:[1900,2400], f4:[null,null],
-          pharynx:'moderate', tongue:'velar', lips:'open',
-          coachTongue:'Back of tongue raises to touch soft palate — like end of "sing".',
+        { symbol:'NGG', name:'Nasal "NG"',     example:'sing',
+          type:'Velar nasal',
+          f1:[180,420], f2:[700,1150], f3:[1700,2500], f4:[null,null],
+          coachTongue:'Raise back of tongue to touch soft palate — like end of "ring".',
           coachLips:'Lips open. Air through nose.' },
 
-        { symbol:'SSS', name:'Fricative "S"', example:'sun',   type:'Alveolar fricative',
-          f1:[null,null], f2:[null,null], f3:[3500,5000], f4:[null,null],
-          pharynx:'moderate', tongue:'groove', lips:'spread',
-          coachTongue:'Tongue tip near but not touching ridge. Create a narrow groove for airflow.',
-          coachLips:'Lips slightly spread — teeth close together.' },
+        { symbol:'SSS', name:'Fricative "S"',  example:'sun',
+          type:'Alveolar fricative',
+          f1:[null,null], f2:[null,null], f3:[3200,5000], f4:[null,null],
+          coachTongue:'Tongue tip near but NOT touching the ridge. Create a narrow groove.',
+          coachLips:'Teeth close together. Lips slightly spread.' },
 
-        { symbol:'ZZZ', name:'Fricative "Z"', example:'zoo',   type:'Voiced alveolar fricative',
-          f1:[null,null], f2:[null,null], f3:[3000,4500], f4:[null,null],
-          pharynx:'moderate', tongue:'groove', lips:'spread',
-          coachTongue:'Same as S but add voice — feel vibration in tongue and teeth.',
-          coachLips:'Lips slightly spread — teeth close together.' },
+        { symbol:'ZZZ', name:'Fricative "Z"',  example:'zoo',
+          type:'Voiced fricative',
+          f1:[null,null], f2:[null,null], f3:[2800,4500], f4:[null,null],
+          coachTongue:'Same position as S but add voice — feel buzz in teeth.',
+          coachLips:'Teeth close. Lips slightly spread.' },
 
-        { symbol:'SHH', name:'Fricative "SH"', example:'ship', type:'Palatal fricative',
-          f1:[null,null], f2:[null,null], f3:[2500,3500], f4:[null,null],
-          pharynx:'moderate', tongue:'palatal', lips:'rounded',
-          coachTongue:'Tongue blade (not tip) raised toward hard palate. Tip down.',
-          coachLips:'Slight lip rounding and protrusion — this shapes the resonance.' },
+        { symbol:'SHH', name:'Fricative "SH"', example:'ship',
+          type:'Palatal fricative',
+          f1:[null,null], f2:[null,null], f3:[2300,3500], f4:[null,null],
+          coachTongue:'Tongue blade raised toward hard palate. Tip pointed down.',
+          coachLips:'Slight rounding and protrusion — this shapes the resonance.' },
 
-        { symbol:'FFF', name:'Fricative "F"', example:'fish',  type:'Labiodental fricative',
-          f1:[null,null], f2:[null,null], f3:[3500,5000], f4:[null,null],
-          pharynx:'moderate', tongue:'neutral', lips:'labiodental',
+        { symbol:'FFF', name:'Fricative "F"',  example:'fish',
+          type:'Labiodental fricative',
+          f1:[null,null], f2:[null,null], f3:[3200,5000], f4:[null,null],
           coachTongue:'Tongue stays relaxed for F.',
-          coachLips:'Upper teeth rest lightly on lower lip. Push air through the gap.' },
+          coachLips:'Upper teeth rest lightly on lower lip. Blow air through gap.' },
 
-        { symbol:'VVV', name:'Fricative "V"', example:'van',   type:'Voiced labiodental',
-          f1:[200,500], f2:[null,null], f3:[3000,4500], f4:[null,null],
-          pharynx:'moderate', tongue:'neutral', lips:'labiodental',
-          coachTongue:'Tongue stays relaxed — same as F but voiced.',
-          coachLips:'Upper teeth on lower lip — add voice vibration.' },
+        { symbol:'VVV', name:'Fricative "V"',  example:'van',
+          type:'Voiced labiodental',
+          f1:[170,500], f2:[null,null], f3:[2800,4500], f4:[null,null],
+          coachTongue:'Tongue relaxed — same as F but add voice.',
+          coachLips:'Upper teeth on lower lip — add vocal buzz.' },
 
-        { symbol:'LLL', name:'Lateral "L"',  example:'love',   type:'Alveolar lateral',
-          f1:[300,500], f2:[900,1200], f3:[2400,2900], f4:[null,null],
-          pharynx:'moderate', tongue:'lateral', lips:'neutral',
-          coachTongue:'Tongue tip touches ridge behind upper teeth. Sides of tongue drop to let air pass.',
+        { symbol:'LLL', name:'Lateral "L"',   example:'love',
+          type:'Alveolar lateral',
+          f1:[280,530], f2:[800,1250], f3:[2200,2900], f4:[null,null],
+          coachTongue:'Tip touches ridge behind upper teeth. Sides drop to let air pass.',
           coachLips:'Lips relaxed and neutral.' },
 
-        { symbol:'RRR', name:'Approximant "R"', example:'red', type:'Alveolar approximant',
-          f1:[300,500], f2:[700,1100], f3:[1600,2000], f4:[null,null],
-          pharynx:'moderate', tongue:'retroflex', lips:'slight-round',
-          coachTongue:'Curl tongue tip back (retroflex) OR bunch the tongue body. Keep it off the palate.',
+        { symbol:'RRR', name:'Approx "R"',    example:'red',
+          type:'Approximant',
+          f1:[280,530], f2:[600,1150], f3:[1400,2100], f4:[null,null],
+          coachTongue:'Curl tongue tip back (retroflex) and keep it OFF the palate.',
           coachLips:'Slight lip rounding helps shape the R resonance.' },
 
-        { symbol:'WWW', name:'Approximant "W"', example:'wet', type:'Bilabial approximant',
-          f1:[200,400], f2:[600,900],  f3:[2200,2700], f4:[null,null],
-          pharynx:'open', tongue:'high-back', lips:'rounded',
+        { symbol:'WWW', name:'Approx "W"',    example:'wet',
+          type:'Bilabial approximant',
+          f1:[170,420], f2:[500,950],  f3:[2000,2700], f4:[null,null],
           coachTongue:'Back of tongue high — like OO vowel position.',
-          coachLips:'Start with tight rounded lips then open into the following vowel.' },
+          coachLips:'Start with tight rounded lips then open into next vowel.' },
 
-        { symbol:'YYY', name:'Approximant "Y"', example:'yes', type:'Palatal approximant',
-          f1:[200,400], f2:[1800,2400], f3:[2700,3200], f4:[null,null],
-          pharynx:'moderate', tongue:'high-front', lips:'spread',
-          coachTongue:'Tongue high and front — like EE vowel — then glide into next sound.',
-          coachLips:'Slightly spread lips that open into the following vowel.' },
+        { symbol:'YYY', name:'Approx "Y"',    example:'yes',
+          type:'Palatal approximant',
+          f1:[170,420], f2:[1600,2400], f3:[2500,3200], f4:[null,null],
+          coachTongue:'Tongue high and front — like EE — then glide into next sound.',
+          coachLips:'Slightly spread lips opening into next vowel.' },
 
-        { symbol:'HHH', name:'Fricative "H"',  example:'hat',  type:'Glottal fricative',
-          f1:[400,700], f2:[1000,1500], f3:[2300,2800], f4:[null,null],
-          pharynx:'open', tongue:'neutral', lips:'neutral',
-          coachTongue:'Tongue position mirrors the FOLLOWING vowel — prepare early.',
-          coachLips:'Lips open and relaxed — breathe through an open vocal tract.' },
+        { symbol:'HHH', name:'Glottal "H"',   example:'hat',
+          type:'Glottal fricative',
+          f1:[350,700], f2:[900,1550], f3:[2100,2900], f4:[null,null],
+          coachTongue:'Mirror the FOLLOWING vowel position — prepare the tongue early.',
+          coachLips:'Open and relaxed — breathe through an open vocal tract.' },
     ]
 };
 
 // ═══════════════════════════════════════════════════════════
+// SMOOTHING BUFFER — averages last N readings
+// ═══════════════════════════════════════════════════════════
+const SMOOTH_N   = 5;   // number of frames to average
+const formantHistory = { f1:[], f2:[], f3:[], f4:[] };
+
+function pushHistory(key, val) {
+    formantHistory[key].push(val);
+    if (formantHistory[key].length > SMOOTH_N) formantHistory[key].shift();
+}
+
+function avgHistory(key) {
+    const arr = formantHistory[key];
+    if (arr.length === 0) return null;
+    return arr.reduce((a,b) => a+b, 0) / arr.length;
+}
+
+function clearHistory() {
+    Object.keys(formantHistory).forEach(k => formantHistory[k] = []);
+}
+
+function historyReady() {
+    return formantHistory.f1.length >= SMOOTH_N;
+}
+
+// ═══════════════════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════════════════
-let currentTab      = 'vowels';
-let selectedSound   = SOUNDS.vowels[0];
+let currentTab    = 'vowels';
+let selectedSound = SOUNDS.vowels[0];
 let audioCtx, analyser, microphone, dataArray, animationId;
 let spectrogramData = [];
 const canvas = document.getElementById('spectrogram');
 const ctx2d  = canvas.getContext('2d');
 
-// ── Origin check ──────────────────────────────────────────
+// Origin check
 const isSecure = (
     location.protocol === 'https:' ||
     location.hostname === 'localhost' ||
@@ -828,10 +895,10 @@ if (!isSecure) {
     document.getElementById('secureBadge').classList.add('visible');
 }
 
-// ── Render sound grid ─────────────────────────────────────
+// ── Sound grid ────────────────────────────────────────────
 function switchTab(tab) {
     currentTab = tab;
-    document.getElementById('tabVowels').classList.toggle('active',    tab === 'vowels');
+    document.getElementById('tabVowels').classList.toggle('active',     tab === 'vowels');
     document.getElementById('tabConsonants').classList.toggle('active', tab === 'consonants');
     renderGrid();
 }
@@ -841,33 +908,50 @@ function renderGrid() {
     const sounds = SOUNDS[currentTab];
     grid.innerHTML = sounds.map((s, i) => `
         <div class="sound-btn ${s === selectedSound ? 'selected' : ''}"
-             onclick="selectSound('${currentTab}', ${i})">
+             onclick="selectSound('${currentTab}',${i})">
             <span class="sound-symbol">${s.symbol}</span>
             <span class="sound-example">${s.example}</span>
         </div>`).join('');
 }
 
-function selectSound(tab, index) {
-    selectedSound = SOUNDS[tab][index];
+function selectSound(tab, i) {
+    selectedSound = SOUNDS[tab][i];
+    clearHistory();
     renderGrid();
-    updateCurrentSoundDisplay();
-    updateTargetFormantsDisplay();
+    updateSoundDisplay();
+    updateTargetDisplay();
 }
 
-function updateCurrentSoundDisplay() {
+function updateSoundDisplay() {
     document.getElementById('csSymbol').textContent = selectedSound.symbol;
     document.getElementById('csName').textContent   = selectedSound.name;
     document.getElementById('csType').textContent   = selectedSound.type + ' · "' + selectedSound.example + '"';
 }
 
-function updateTargetFormantsDisplay() {
-    const row = document.getElementById('targetFormants');
-    const fmts = ['F1','F2','F3','F4'];
-    row.innerHTML = fmts.map((f, i) => {
-        const range = selectedSound[f.toLowerCase()];
-        if (!range || range[0] === null) return `<div class="target-formant">${f}: N/A</div>`;
-        return `<div class="target-formant">${f}: ${range[0]}–${range[1]}Hz</div>`;
+function updateTargetDisplay(detectedFormants) {
+    const row    = document.getElementById('targetFormants');
+    const fkeys  = ['f1','f2','f3','f4'];
+    const labels = ['F1','F2','F3','F4'];
+    row.innerHTML = fkeys.map((fk, i) => {
+        const range = selectedSound[fk];
+        if (!range || range[0] === null) return `<div class="target-formant">${labels[i]}: N/A</div>`;
+        const det = detectedFormants ? detectedFormants[fk] : null;
+        const inRange = det && det >= range[0] && det <= range[1];
+        return `<div class="target-formant ${inRange ? 'in-range' : ''}">
+            ${labels[i]}: ${range[0]}–${range[1]}Hz
+            ${det ? '<br><small>' + Math.round(det) + 'Hz</small>' : ''}
+        </div>`;
     }).join('');
+}
+
+// ── Smoothing dots UI ─────────────────────────────────────
+function updateSmoothingUI() {
+    const n = formantHistory.f1.length;
+    for (let i = 0; i < SMOOTH_N; i++) {
+        document.getElementById('d' + i).classList.toggle('filled', i < n);
+    }
+    document.getElementById('smoothingLabel').textContent =
+        n < SMOOTH_N ? `hold sound… (${n}/${SMOOTH_N})` : 'reading stable ✓';
 }
 
 // ── Buttons ───────────────────────────────────────────────
@@ -886,18 +970,18 @@ async function startAnalysis() {
         analyser   = audioCtx.createAnalyser();
         microphone = audioCtx.createMediaStreamSource(stream);
         analyser.fftSize = 4096;
-        analyser.smoothingTimeConstant = 0.75;
+        analyser.smoothingTimeConstant = 0.8;
         dataArray = new Uint8Array(analyser.frequencyBinCount);
         microphone.connect(analyser);
 
         document.getElementById('startBtn').style.display = 'none';
         document.getElementById('stopBtn').style.display  = 'inline-block';
         document.getElementById('targetDisplay').style.display = 'block';
-
+        clearHistory();
         draw();
     } catch (err) {
         if (err.name === 'NotAllowedError') {
-            alert('Microphone blocked.\n\nSafari: Settings → Safari → Microphone → allow this site.');
+            alert('Mic blocked.\nSafari: Settings → Safari → Microphone → allow this site.');
         } else {
             alert('Mic error: ' + err.message);
         }
@@ -909,6 +993,7 @@ function stopAnalysis() {
     if (microphone) { microphone.disconnect(); microphone.mediaStream.getTracks().forEach(t => t.stop()); }
     if (audioCtx) audioCtx.close();
     spectrogramData = [];
+    clearHistory();
     document.getElementById('startBtn').style.display = 'inline-block';
     document.getElementById('stopBtn').style.display  = 'none';
     document.getElementById('targetDisplay').style.display = 'none';
@@ -917,7 +1002,7 @@ function stopAnalysis() {
 
 function resetDisplays() {
     const cs = document.getElementById('coachStatus');
-    cs.textContent = 'Select a sound above, tap Start, then produce that sound...';
+    cs.textContent = 'Select a sound above, tap Start, then sustain that sound clearly...';
     cs.className   = 'coach-status waiting';
     document.getElementById('adjustmentGrid').innerHTML    = '';
     document.getElementById('alignmentScore').textContent  = '0%';
@@ -926,9 +1011,11 @@ function resetDisplays() {
     ['alignment','pharynx','formants'].forEach(id =>
         document.getElementById(id + 'Bar').style.width = '0%'
     );
+    for (let i = 0; i < SMOOTH_N; i++) document.getElementById('d'+i).classList.remove('filled');
+    document.getElementById('smoothingLabel').textContent = 'warming up...';
 }
 
-// ── Draw loop ─────────────────────────────────────────────
+// ── Draw ──────────────────────────────────────────────────
 function draw() {
     animationId = requestAnimationFrame(draw);
     analyser.getByteFrequencyData(dataArray);
@@ -949,9 +1036,9 @@ function draw() {
         for (let j = 0; j < maxBin; j++) {
             const p = slice[j] / 255;
             let r, g, b;
-            if      (p < 0.3) { r = 0;                        g = Math.floor(p*850);      b = 255; }
-            else if (p < 0.7) { r = Math.floor((p-0.3)*637);  g = 255;                    b = Math.floor((0.7-p)*637); }
-            else               { r = 255;                       g = Math.floor((1-p)*850);  b = 0; }
+            if      (p < 0.3) { r = 0;                       g = Math.floor(p*850);      b = 255; }
+            else if (p < 0.7) { r = Math.floor((p-0.3)*637); g = 255;                    b = Math.floor((0.7-p)*637); }
+            else               { r = 255;                      g = Math.floor((1-p)*850);  b = 0; }
             ctx2d.fillStyle = `rgb(${r},${g},${b})`;
             const y = canvas.height - (j / maxBin) * canvas.height;
             ctx2d.fillRect(i * sliceW, y, sliceW + 0.5, canvas.height / maxBin + 0.5);
@@ -968,32 +1055,58 @@ function coachingAnalysis(fd) {
     const f0      = detectFundamental(fd, bw);
     const cs      = document.getElementById('coachStatus');
 
-    if (f0 < 50 || f0 > 1200) {
-        cs.textContent = `🎤 Waiting... sustain "${selectedSound.symbol}" clearly`;
+    if (f0 < 50 || f0 > 400) {
+        cs.textContent = `🎤 Waiting... sustain "${selectedSound.symbol}" clearly and steadily`;
         cs.className   = 'coach-status waiting';
+        clearHistory();
+        updateSmoothingUI();
         return;
     }
 
-    cs.textContent = `🎵 Analysing "${selectedSound.symbol}" at ${Math.round(f0)} Hz...`;
-    cs.className   = 'coach-status analyzing';
+    // Detect raw formants and push into smoothing buffer
+    const rawFormants = detectFormants(fd, bw);
+    ['f1','f2','f3','f4'].forEach(fk => {
+        const found = rawFormants.find(f => f.name === fk);
+        if (found) pushHistory(fk, found.frequency);
+    });
 
-    const formants   = detectFormants(fd, bw);
+    updateSmoothingUI();
+
+    // Wait until buffer is full before coaching
+    if (!historyReady()) {
+        cs.textContent = `🎵 Hold "${selectedSound.symbol}" steady... averaging readings`;
+        cs.className   = 'coach-status analyzing';
+        return;
+    }
+
+    // Use smoothed values
+    const smoothed = {
+        f1: avgHistory('f1'),
+        f2: avgHistory('f2'),
+        f3: avgHistory('f3'),
+        f4: avgHistory('f4')
+    };
+
     const harmonics  = detectHarmonics(f0, fd, bw);
-    const alignments = calculateAlignment(formants, harmonics);
-    const metrics    = calculateMetrics(fd, bw, f0, formants, alignments);
+    const alignments = calculateAlignment(rawFormants, harmonics);
+    const metrics    = calculateMetrics(fd, bw, f0, rawFormants, alignments);
 
-    generateCoaching(formants, metrics);
-    updateProgress(metrics, formants);
+    cs.textContent = `🎵 Coaching "${selectedSound.symbol}" at ${Math.round(f0)} Hz`;
+    cs.className   = 'coach-status coaching';
+
+    generateCoaching(smoothed, metrics);
+    updateProgress(metrics, rawFormants);
+    updateTargetDisplay(smoothed);
 }
 
 function detectFundamental(fd, bw) {
     let maxVal = 0, maxBin = 0;
     const lo = Math.floor(60  / bw);
-    const hi = Math.floor(600 / bw);
+    const hi = Math.floor(400 / bw);
     for (let i = lo; i < hi && i < fd.length; i++) {
         if (fd[i] > maxVal) { maxVal = fd[i]; maxBin = i; }
     }
-    return maxVal < 50 ? 0 : maxBin * bw;
+    return maxVal < 45 ? 0 : maxBin * bw;
 }
 
 function detectHarmonics(f0, fd, bw) {
@@ -1003,7 +1116,7 @@ function detectHarmonics(f0, fd, bw) {
         if (freq > 6000) break;
         const bin = Math.round(freq / bw);
         if (bin >= fd.length) break;
-        if (fd[bin] > 25) out.push({ number: h, frequency: freq, amplitude: fd[bin] });
+        if (fd[bin] > 25) out.push({ number:h, frequency:freq, amplitude:fd[bin] });
     }
     return out;
 }
@@ -1011,14 +1124,14 @@ function detectHarmonics(f0, fd, bw) {
 function detectFormants(fd, bw) {
     const sm = smoothSpectrum(fd);
     return [
-        { name: 'f1', min:  150, max: 1000 },
-        { name: 'f2', min:  800, max: 2800 },
-        { name: 'f3', min: 1800, max: 3800 },
-        { name: 'f4', min: 2800, max: 5000 }
+        { name:'f1', min: 100, max:1100 },
+        { name:'f2', min: 700, max:2900 },
+        { name:'f3', min:1700, max:3900 },
+        { name:'f4', min:2700, max:5200 }
     ].reduce((acc, r) => {
         const pk = findPeak(sm, bw, r.min, r.max);
-        if (pk.frequency > 0 && pk.amplitude > 35)
-            acc.push({ name: r.name, frequency: pk.frequency, amplitude: pk.amplitude });
+        if (pk.frequency > 0 && pk.amplitude > 30)
+            acc.push({ name:r.name, frequency:pk.frequency, amplitude:pk.amplitude });
         return acc;
     }, []);
 }
@@ -1027,23 +1140,22 @@ function smoothSpectrum(data) {
     const out = new Uint8Array(data.length);
     for (let i = 0; i < data.length; i++) {
         let sum = 0, n = 0;
-        for (let j = -5; j <= 5; j++) {
-            const k = i + j;
+        for (let j = -7; j <= 7; j++) {
+            const k = i+j;
             if (k >= 0 && k < data.length) { sum += data[k]; n++; }
         }
-        out[i] = Math.round(sum / n);
+        out[i] = Math.round(sum/n);
     }
     return out;
 }
 
 function findPeak(data, bw, minF, maxF) {
-    const lo = Math.floor(minF / bw);
-    const hi = Math.floor(maxF / bw);
-    let peakVal = 0, peakBin = 0;
+    const lo = Math.floor(minF/bw), hi = Math.floor(maxF/bw);
+    let pv = 0, pb = 0;
     for (let i = lo; i <= hi && i < data.length; i++) {
-        if (data[i] > peakVal) { peakVal = data[i]; peakBin = i; }
+        if (data[i] > pv) { pv = data[i]; pb = i; }
     }
-    return { frequency: peakBin * bw, amplitude: peakVal };
+    return { frequency: pb*bw, amplitude: pv };
 }
 
 function calculateAlignment(formants, harmonics) {
@@ -1051,132 +1163,118 @@ function calculateAlignment(formants, harmonics) {
         let best = null, bestDist = Infinity;
         formants.forEach(f => {
             const d = Math.abs(f.frequency - h.frequency);
-            if ((d / h.frequency) * 100 < 20 && d < bestDist) { bestDist = d; best = f; }
+            if ((d/h.frequency)*100 < 25 && d < bestDist) { bestDist = d; best = f; }
         });
-        const pct    = best ? (bestDist / h.frequency) * 100 : 100;
-        const status = pct <= 5 ? 'perfect' : pct <= 10 ? 'good' : pct <= 20 ? 'near' : 'none';
-        return { harmonic: h, formant: best, distance: bestDist, percentDiff: pct, status };
+        const pct    = best ? (bestDist/h.frequency)*100 : 100;
+        const status = pct <= 7 ? 'perfect' : pct <= 15 ? 'good' : pct <= 25 ? 'near' : 'none';
+        return { harmonic:h, formant:best, distance:bestDist, percentDiff:pct, status };
     });
 }
 
 function calculateMetrics(fd, bw, f0, formants, alignments) {
-    const low  = energy(fd, bw,   60,  500);
-    const high = energy(fd, bw, 2000, 5000);
+    const low  = energy(fd, bw,  60,  600);
+    const high = energy(fd, bw,2000, 5000);
     let alignmentScore = 0;
     alignments.forEach(a => {
-        if      (a.status === 'perfect') alignmentScore += 10;
-        else if (a.status === 'good')    alignmentScore += 6;
-        else if (a.status === 'near')    alignmentScore += 3;
+        if      (a.status==='perfect') alignmentScore += 10;
+        else if (a.status==='good')    alignmentScore += 7;
+        else if (a.status==='near')    alignmentScore += 4;
     });
     return {
-        pharynxScore:     Math.min(100, (low / 255) * 150),
+        pharynxScore:     Math.min(100, (low/255)*160),
         alignmentScore:   Math.min(100, alignmentScore),
         formantsDetected: formants.length,
-        alignedCount:     alignments.filter(a => a.status === 'perfect' || a.status === 'good').length,
-        highEnergy:       high, lowEnergy: low
+        alignedCount:     alignments.filter(a => a.status==='perfect'||a.status==='good').length,
+        highEnergy:       high,
+        lowEnergy:        low
     };
 }
 
 function energy(fd, bw, minF, maxF) {
-    const lo = Math.floor(minF / bw), hi = Math.floor(maxF / bw);
+    const lo = Math.floor(minF/bw), hi = Math.floor(maxF/bw);
     let sum = 0, n = 0;
     for (let i = lo; i <= hi && i < fd.length; i++) { sum += fd[i]; n++; }
-    return n > 0 ? sum / n : 0;
+    return n > 0 ? sum/n : 0;
 }
 
 // ── Coaching cards ────────────────────────────────────────
-function generateCoaching(formants, metrics) {
+function generateCoaching(smoothed, metrics) {
     const grid = document.getElementById('adjustmentGrid');
-    const cs   = document.getElementById('coachStatus');
     const s    = selectedSound;
-
-    // ── Check each formant against target ranges ──
-    const formantResults = ['f1','f2','f3','f4'].map(fn => {
-        const target = s[fn];
-        const detected = formants.find(f => f.name === fn);
-        if (!target || target[0] === null) return { name: fn, skip: true };
-
-        if (!detected) return {
-            name: fn, detected: null,
-            status: 'missing',
-            low: target[0], high: target[1]
-        };
-
-        const inRange = detected.frequency >= target[0] && detected.frequency <= target[1];
-        const tooLow  = detected.frequency < target[0];
-        return {
-            name: fn,
-            detected: detected.frequency,
-            status: inRange ? 'good' : (tooLow ? 'too-low' : 'too-high'),
-            low: target[0], high: target[1]
-        };
-    }).filter(r => !r.skip);
-
-    const goodCount = formantResults.filter(r => r.status === 'good').length;
-    const total     = formantResults.length;
-
-    // ── Build cards ──
     const adjs = [];
 
-    // Card 1: Pharynx / Throat
-    if (metrics.pharynxScore < 50) {
-        adjs.push({ area:'Pharynx', icon:'🗣️', status:'critical', cardClass:'warning',
-            instruction:'OPEN YOUR THROAT MORE! Drop jaw, think "yawn". Tongue root forward, not pulled back.',
-            statusText:`❌ ${Math.round(metrics.pharynxScore)}% open` });
-    } else if (metrics.pharynxScore < 70) {
-        adjs.push({ area:'Pharynx', icon:'🗣️', status:'needs-work', cardClass:'',
-            instruction:'Open throat a bit more. Maintain that yawn feeling.',
-            statusText:`⚠️ ${Math.round(metrics.pharynxScore)}% open` });
-    } else {
-        adjs.push({ area:'Pharynx', icon:'🗣️', status:'good', cardClass:'active',
-            instruction:'Great throat openness! Maintain this resonant space.',
-            statusText:`✅ ${Math.round(metrics.pharynxScore)}% open` });
+    // Helper: check if smoothed value is in target range
+    function inRange(fk) {
+        const val   = smoothed[fk];
+        const range = s[fk];
+        if (!val || !range || range[0] === null) return null; // N/A
+        return val >= range[0] && val <= range[1];
     }
+    function tooLow(fk)  { const v=smoothed[fk],r=s[fk]; return v&&r&&r[0]!==null&&v<r[0]; }
+    function tooHigh(fk) { const v=smoothed[fk],r=s[fk]; return v&&r&&r[0]!==null&&v>r[1]; }
 
-    // Card 2: Tongue — sound-specific
-    const badFormant = formantResults.find(r => r.status !== 'good');
-    if (badFormant && badFormant.status === 'missing') {
-        adjs.push({ area:'Tongue', icon:'👅', status:'critical', cardClass:'warning',
-            instruction: s.coachTongue + ' Formant not detected — check your position.',
-            statusText:`❌ ${badFormant.name.toUpperCase()} missing` });
-    } else if (badFormant && badFormant.status === 'too-low') {
-        adjs.push({ area:'Tongue', icon:'👅', status:'needs-work', cardClass:'',
-            instruction:`${badFormant.name.toUpperCase()} too low (${Math.round(badFormant.detected)}Hz, target ${badFormant.low}–${badFormant.high}Hz). ${s.coachTongue}`,
-            statusText:`⚠️ ${badFormant.name.toUpperCase()} too low` });
-    } else if (badFormant && badFormant.status === 'too-high') {
-        adjs.push({ area:'Tongue', icon:'👅', status:'needs-work', cardClass:'',
-            instruction:`${badFormant.name.toUpperCase()} too high (${Math.round(badFormant.detected)}Hz, target ${badFormant.low}–${badFormant.high}Hz). Relax and lower tongue slightly.`,
-            statusText:`⚠️ ${badFormant.name.toUpperCase()} too high` });
-    } else {
-        const f1d = formants.find(f => f.name === 'f1');
-        const f2d = formants.find(f => f.name === 'f2');
+    // ── PHARYNX ──
+    if      (metrics.pharynxScore < 45) adjs.push({
+        area:'Pharynx', icon:'🗣️', status:'critical', cardClass:'warning',
+        instruction:'OPEN THROAT MORE — drop jaw and think "yawn". Tongue root forward, not pulled back.',
+        statusText:`❌ ${Math.round(metrics.pharynxScore)}% open` });
+    else if (metrics.pharynxScore < 65) adjs.push({
+        area:'Pharynx', icon:'🗣️', status:'needs-work', cardClass:'caution',
+        instruction:'Open throat a little more. Keep that relaxed yawn feeling.',
+        statusText:`⚠️ ${Math.round(metrics.pharynxScore)}% open` });
+    else adjs.push({
+        area:'Pharynx', icon:'🗣️', status:'good', cardClass:'active',
+        instruction:'Great throat openness! Maintain this resonant space.',
+        statusText:`✅ ${Math.round(metrics.pharynxScore)}% open` });
+
+    // ── TONGUE (F1/F2 based) ──
+    const f1ok = inRange('f1'), f2ok = inRange('f2');
+    if (f1ok === null && f2ok === null) {
+        // consonant — just show guidance
         adjs.push({ area:'Tongue', icon:'👅', status:'good', cardClass:'active',
-            instruction:`Perfect! ${s.coachTongue}`,
-            statusText:`✅ ${f1d ? 'F1:'+Math.round(f1d.frequency)+'Hz' : ''} ${f2d ? 'F2:'+Math.round(f2d.frequency)+'Hz' : ''}` });
-    }
-
-    // Card 3: Lips — sound-specific
-    if (metrics.highEnergy < 40 && s.lips !== 'neutral') {
-        adjs.push({ area:'Lips', icon:'💋', status:'critical', cardClass:'warning',
-            instruction:`ADJUST LIPS! For "${s.symbol}": ${s.coachLips}`,
-            statusText:'❌ Lip resonance weak' });
-    } else if (goodCount === total) {
-        adjs.push({ area:'Lips', icon:'💋', status:'good', cardClass:'active',
-            instruction:`Great lip position for "${s.symbol}"! ${s.coachLips}`,
-            statusText:'✅ All formants in range' });
+            instruction: s.coachTongue,
+            statusText:'ℹ️ Follow tongue tip above' });
+    } else if (f1ok && f2ok) {
+        adjs.push({ area:'Tongue', icon:'👅', status:'good', cardClass:'active',
+            instruction:`Perfect tongue position for "${s.symbol}"! ${s.coachTongue}`,
+            statusText:`✅ F1:${Math.round(smoothed.f1)}Hz F2:${smoothed.f2?Math.round(smoothed.f2)+'Hz':'—'}` });
+    } else if (tooLow('f1')) {
+        adjs.push({ area:'Tongue', icon:'👅', status:'needs-work', cardClass:'caution',
+            instruction:`F1 too low (${Math.round(smoothed.f1)}Hz, target ${s.f1[0]}–${s.f1[1]}Hz). Raise tongue slightly or open jaw more.`,
+            statusText:`⚠️ F1 too low — raise tongue` });
+    } else if (tooHigh('f1')) {
+        adjs.push({ area:'Tongue', icon:'👅', status:'needs-work', cardClass:'caution',
+            instruction:`F1 too high (${Math.round(smoothed.f1)}Hz, target ${s.f1[0]}–${s.f1[1]}Hz). Lower tongue or relax jaw.`,
+            statusText:`⚠️ F1 too high — lower tongue` });
+    } else if (!f2ok && smoothed.f2) {
+        adjs.push({ area:'Tongue', icon:'👅', status:'needs-work', cardClass:'caution',
+            instruction:`F2 off target (${Math.round(smoothed.f2)}Hz, target ${s.f2[0]}–${s.f2[1]}Hz). ${s.coachTongue}`,
+            statusText:`⚠️ F2 needs adjustment` });
     } else {
-        adjs.push({ area:'Lips', icon:'💋', status:'needs-work', cardClass:'',
-            instruction:`For "${s.symbol}": ${s.coachLips}`,
-            statusText:`⚠️ ${goodCount}/${total} formants in range` });
+        adjs.push({ area:'Tongue', icon:'👅', status:'critical', cardClass:'warning',
+            instruction:`Formant not detected. ${s.coachTongue} Make sure you're sustaining the sound clearly.`,
+            statusText:'❌ Hold the sound longer' });
     }
 
-    // Overall status
-    cs.textContent = metrics.alignmentScore < 40
-        ? `🔴 Keep adjusting your "${s.symbol}" — follow red cards`
-        : metrics.alignmentScore < 70
-        ? `🟡 Getting closer on "${s.symbol}" — fine tune!`
-        : `🟢 Excellent "${s.symbol}"! All targets met!`;
-    cs.className = 'coach-status coaching';
+    // ── LIPS (F3/high energy based) ──
+    const f3ok = inRange('f3');
+    if (f3ok === null) {
+        adjs.push({ area:'Lips', icon:'💋', status:'good', cardClass:'active',
+            instruction: s.coachLips,
+            statusText:'ℹ️ Follow lip guidance above' });
+    } else if (f3ok) {
+        adjs.push({ area:'Lips', icon:'💋', status:'good', cardClass:'active',
+            instruction:`Great lip shape for "${s.symbol}"! ${s.coachLips}`,
+            statusText:`✅ F3:${smoothed.f3?Math.round(smoothed.f3)+'Hz':'in range'}` });
+    } else if (metrics.highEnergy > 55) {
+        adjs.push({ area:'Lips', icon:'💋', status:'good', cardClass:'active',
+            instruction:`Good resonance energy. ${s.coachLips}`,
+            statusText:'✅ Resonance detected' });
+    } else {
+        adjs.push({ area:'Lips', icon:'💋', status:'needs-work', cardClass:'caution',
+            instruction:`Adjust lip shape for "${s.symbol}": ${s.coachLips}`,
+            statusText:'⚠️ Try adjusting lip shape' });
+    }
 
     grid.innerHTML = adjs.map(a => `
         <div class="adjustment-card ${a.cardClass}">
@@ -1195,14 +1293,14 @@ function updateProgress(metrics, formants) {
     document.getElementById('pharynxScore').textContent    = Math.round(metrics.pharynxScore) + '%';
     document.getElementById('pharynxBar').style.width      = metrics.pharynxScore + '%';
     document.getElementById('formantsAligned').textContent = `${metrics.alignedCount}/${metrics.formantsDetected}`;
-    const pct = metrics.formantsDetected > 0 ? (metrics.alignedCount / metrics.formantsDetected) * 100 : 0;
+    const pct = metrics.formantsDetected > 0 ? (metrics.alignedCount/metrics.formantsDetected)*100 : 0;
     document.getElementById('formantsBar').style.width = pct + '%';
 }
 
 // ── Init ──────────────────────────────────────────────────
 renderGrid();
-updateCurrentSoundDisplay();
-updateTargetFormantsDisplay();
+updateSoundDisplay();
+updateTargetDisplay();
 </script>
 </body>
 </html>
