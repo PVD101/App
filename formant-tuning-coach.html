@@ -588,7 +588,7 @@
 
     <div class="secure-badge" id="secureBadge">✅ Secure origin — tap Start to begin!</div>
 
-    <div class="voice-badge">🎙️ Optimised for Male Voice &nbsp;·&nbsp; Wider targets &nbsp;·&nbsp; Smoothed detection</div>
+    <div class="voice-badge">🎙️ Tuned for Bass/Baritone Male Voice · ~90 Hz · Wider targets · Smoothed detection</div>
 
     <div class="controls">
         <button class="btn" id="startBtn">🎙️ Start Coaching</button>
@@ -694,73 +694,73 @@ const SOUNDS = {
     vowels: [
         { symbol:'AH', name:'Open "AH"',      example:'father',
           type:'Low vowel',
-          f1:[550,950], f2:[900,1400], f3:[2200,3000], f4:[3000,3900],
+          f1:[550,780], f2:[850,1200], f3:[2000,2600], f4:[2700,3200],
           coachTongue:'Keep tongue low and relaxed. Let jaw drop naturally.',
           coachLips:'Lips relaxed and open — not rounded, not spread.' },
 
         { symbol:'EE', name:'Close "EE"',     example:'see',
           type:'High front vowel',
-          f1:[170,420], f2:[1900,2800], f3:[2600,3400], f4:[3300,4000],
+          f1:[180,330], f2:[1800,2450], f3:[2350,2800], f4:[3000,3500],
           coachTongue:'Push tongue high and forward toward your top front teeth.',
           coachLips:'Spread lips wide into a big smile shape.' },
 
         { symbol:'OO', name:'Close "OO"',     example:'food',
           type:'High back vowel',
-          f1:[170,420], f2:[500,950],  f3:[2000,2700], f4:[2800,3600],
+          f1:[180,330], f2:[450,800],  f3:[1800,2300], f4:[2500,3000],
           coachTongue:'Raise back of tongue toward soft palate.',
           coachLips:'Round lips into a small tight circle — push forward.' },
 
         { symbol:'OH', name:'Mid "OH"',       example:'go',
           type:'Mid back vowel',
-          f1:[350,650], f2:[600,1050], f3:[2100,2800], f4:[2900,3700],
+          f1:[300,550], f2:[500,850], f3:[1850,2400], f4:[2600,3100],
           coachTongue:'Tongue mid-height, pulled slightly back.',
           coachLips:'Round lips into a relaxed O — not too tight.' },
 
         { symbol:'AY', name:'Mid "AY"',       example:'day',
           type:'Mid front vowel',
-          f1:[350,650], f2:[1600,2300], f3:[2400,3100], f4:[3100,3900],
+          f1:[300,550], f2:[1400,2000], f3:[2100,2650], f4:[2800,3300],
           coachTongue:'Tongue mid-high and forward — glide toward EE.',
           coachLips:'Slightly spread — relaxed smile.' },
 
         { symbol:'EH', name:'Mid "EH"',       example:'bed',
           type:'Mid front vowel',
-          f1:[450,750], f2:[1500,2100], f3:[2300,3000], f4:[3000,3800],
+          f1:[400,660], f2:[1250,1800], f3:[2000,2550], f4:[2700,3200],
           coachTongue:'Tongue mid-height and slightly forward.',
           coachLips:'Lips neutral — not spread, not rounded.' },
 
         { symbol:'IH', name:'Near "IH"',      example:'bit',
           type:'Near-high front',
-          f1:[270,530], f2:[1700,2300], f3:[2500,3200], f4:[3200,4000],
+          f1:[220,440], f2:[1450,1950], f3:[2200,2700], f4:[2900,3400],
           coachTongue:'Tongue high-front but relaxed — less tense than EE.',
           coachLips:'Very slight spread — nearly neutral.' },
 
         { symbol:'UH', name:'Mid "UH"',       example:'cup',
           type:'Mid central vowel',
-          f1:[450,750], f2:[900,1450], f3:[2200,2900], f4:[3000,3800],
+          f1:[400,660], f2:[850,1300], f3:[1900,2500], f4:[2700,3200],
           coachTongue:'Tongue completely relaxed in center of mouth.',
           coachLips:'Lips relaxed and neutral — natural resting position.' },
 
         { symbol:'AW', name:'Open "AW"',      example:'caught',
           type:'Low back rounded',
-          f1:[500,800], f2:[600,1050], f3:[2100,2800], f4:[2800,3700],
+          f1:[460,720], f2:[500,850], f3:[1850,2400], f4:[2500,3100],
           coachTongue:'Tongue low and pulled back — like beginning of a yawn.',
           coachLips:'Round lips loosely — not as tight as OO.' },
 
         { symbol:'ER', name:'R-colored "ER"', example:'bird',
           type:'R-colored vowel',
-          f1:[350,650], f2:[1100,1750], f3:[1500,2100], f4:[2800,3600],
+          f1:[300,550], f2:[900,1400], f3:[1300,1800], f4:[2500,3000],
           coachTongue:'Curl tongue tip back (retroflex) — classic R shape.',
           coachLips:'Lips neutral with very slight rounding.' },
 
         { symbol:'OI', name:'Diphthong "OI"', example:'boy',
           type:'Diphthong',
-          f1:[450,750], f2:[600,1100], f3:[2100,2800], f4:[2800,3600],
+          f1:[390,660], f2:[500,900], f3:[1850,2400], f4:[2500,3100],
           coachTongue:'Start with OH tongue then glide toward EE.',
           coachLips:'Start rounded then spread as you glide.' },
 
         { symbol:'OW', name:'Diphthong "OW"', example:'now',
           type:'Diphthong',
-          f1:[600,950], f2:[900,1450], f3:[2200,2900], f4:[2900,3700],
+          f1:[530,790], f2:[800,1250], f3:[1900,2500], f4:[2600,3200],
           coachTongue:'Start with AH then glide back and up toward OO.',
           coachLips:'Start open then round lips as you glide.' },
     ],
@@ -768,79 +768,79 @@ const SOUNDS = {
     consonants: [
         { symbol:'MMM', name:'Nasal "M"',      example:'moon',
           type:'Bilabial nasal',
-          f1:[180,420], f2:[800,1250], f3:[1800,2600], f4:[null,null],
+          f1:[180,380], f2:[700,1100], f3:[1700,2300], f4:[null,null],
           coachTongue:'Tongue relaxed — it does little for M.',
           coachLips:'Lips firmly closed. Let air go through your nose.' },
 
         { symbol:'NNN', name:'Nasal "N"',      example:'nose',
           type:'Alveolar nasal',
-          f1:[180,420], f2:[1000,1550], f3:[2000,2700], f4:[null,null],
+          f1:[180,380], f2:[900,1350], f3:[1900,2500], f4:[null,null],
           coachTongue:'Press tongue tip firmly against the ridge behind upper front teeth.',
           coachLips:'Lips slightly open. Air goes through nose.' },
 
         { symbol:'NGG', name:'Nasal "NG"',     example:'sing',
           type:'Velar nasal',
-          f1:[180,420], f2:[700,1150], f3:[1700,2500], f4:[null,null],
+          f1:[180,380], f2:[600,1000], f3:[1600,2200], f4:[null,null],
           coachTongue:'Raise back of tongue to touch soft palate — like end of "ring".',
           coachLips:'Lips open. Air through nose.' },
 
         { symbol:'SSS', name:'Fricative "S"',  example:'sun',
           type:'Alveolar fricative',
-          f1:[null,null], f2:[null,null], f3:[3200,5000], f4:[null,null],
+          f1:[null,null], f2:[null,null], f3:[3000,4500], f4:[null,null],
           coachTongue:'Tongue tip near but NOT touching the ridge. Create a narrow groove.',
           coachLips:'Teeth close together. Lips slightly spread.' },
 
         { symbol:'ZZZ', name:'Fricative "Z"',  example:'zoo',
           type:'Voiced fricative',
-          f1:[null,null], f2:[null,null], f3:[2800,4500], f4:[null,null],
+          f1:[null,null], f2:[null,null], f3:[2600,4000], f4:[null,null],
           coachTongue:'Same position as S but add voice — feel buzz in teeth.',
           coachLips:'Teeth close. Lips slightly spread.' },
 
         { symbol:'SHH', name:'Fricative "SH"', example:'ship',
           type:'Palatal fricative',
-          f1:[null,null], f2:[null,null], f3:[2300,3500], f4:[null,null],
+          f1:[null,null], f2:[null,null], f3:[2100,3200], f4:[null,null],
           coachTongue:'Tongue blade raised toward hard palate. Tip pointed down.',
           coachLips:'Slight rounding and protrusion — this shapes the resonance.' },
 
         { symbol:'FFF', name:'Fricative "F"',  example:'fish',
           type:'Labiodental fricative',
-          f1:[null,null], f2:[null,null], f3:[3200,5000], f4:[null,null],
+          f1:[null,null], f2:[null,null], f3:[3000,4500], f4:[null,null],
           coachTongue:'Tongue stays relaxed for F.',
           coachLips:'Upper teeth rest lightly on lower lip. Blow air through gap.' },
 
         { symbol:'VVV', name:'Fricative "V"',  example:'van',
           type:'Voiced labiodental',
-          f1:[170,500], f2:[null,null], f3:[2800,4500], f4:[null,null],
+          f1:[150,420], f2:[null,null], f3:[2500,4000], f4:[null,null],
           coachTongue:'Tongue relaxed — same as F but add voice.',
           coachLips:'Upper teeth on lower lip — add vocal buzz.' },
 
         { symbol:'LLL', name:'Lateral "L"',   example:'love',
           type:'Alveolar lateral',
-          f1:[280,530], f2:[800,1250], f3:[2200,2900], f4:[null,null],
+          f1:[250,480], f2:[700,1100], f3:[1900,2600], f4:[null,null],
           coachTongue:'Tip touches ridge behind upper teeth. Sides drop to let air pass.',
           coachLips:'Lips relaxed and neutral.' },
 
         { symbol:'RRR', name:'Approx "R"',    example:'red',
           type:'Approximant',
-          f1:[280,530], f2:[600,1150], f3:[1400,2100], f4:[null,null],
+          f1:[250,480], f2:[500,1000], f3:[1200,1900], f4:[null,null],
           coachTongue:'Curl tongue tip back (retroflex) and keep it OFF the palate.',
           coachLips:'Slight lip rounding helps shape the R resonance.' },
 
         { symbol:'WWW', name:'Approx "W"',    example:'wet',
           type:'Bilabial approximant',
-          f1:[170,420], f2:[500,950],  f3:[2000,2700], f4:[null,null],
+          f1:[150,380], f2:[450,850],  f3:[1800,2400], f4:[null,null],
           coachTongue:'Back of tongue high — like OO vowel position.',
           coachLips:'Start with tight rounded lips then open into next vowel.' },
 
         { symbol:'YYY', name:'Approx "Y"',    example:'yes',
           type:'Palatal approximant',
-          f1:[170,420], f2:[1600,2400], f3:[2500,3200], f4:[null,null],
+          f1:[150,380], f2:[1500,2200], f3:[2200,2800], f4:[null,null],
           coachTongue:'Tongue high and front — like EE — then glide into next sound.',
           coachLips:'Slightly spread lips opening into next vowel.' },
 
         { symbol:'HHH', name:'Glottal "H"',   example:'hat',
           type:'Glottal fricative',
-          f1:[350,700], f2:[900,1550], f3:[2100,2900], f4:[null,null],
+          f1:[300,620], f2:[800,1400], f3:[1900,2600], f4:[null,null],
           coachTongue:'Mirror the FOLLOWING vowel position — prepare the tongue early.',
           coachLips:'Open and relaxed — breathe through an open vocal tract.' },
     ]
@@ -1055,7 +1055,7 @@ function coachingAnalysis(fd) {
     const f0      = detectFundamental(fd, bw);
     const cs      = document.getElementById('coachStatus');
 
-    if (f0 < 50 || f0 > 400) {
+    if (f0 < 70 || f0 > 160) {
         cs.textContent = `🎤 Waiting... sustain "${selectedSound.symbol}" clearly and steadily`;
         cs.className   = 'coach-status waiting';
         clearHistory();
@@ -1101,12 +1101,13 @@ function coachingAnalysis(fd) {
 
 function detectFundamental(fd, bw) {
     let maxVal = 0, maxBin = 0;
-    const lo = Math.floor(60  / bw);
-    const hi = Math.floor(400 / bw);
+    // Tuned for 90Hz bass/baritone voice — search 70-160Hz only
+    const lo = Math.floor(70  / bw);
+    const hi = Math.floor(160 / bw);
     for (let i = lo; i < hi && i < fd.length; i++) {
         if (fd[i] > maxVal) { maxVal = fd[i]; maxBin = i; }
     }
-    return maxVal < 45 ? 0 : maxBin * bw;
+    return maxVal < 35 ? 0 : maxBin * bw;
 }
 
 function detectHarmonics(f0, fd, bw) {
@@ -1181,7 +1182,7 @@ function calculateMetrics(fd, bw, f0, formants, alignments) {
         else if (a.status==='near')    alignmentScore += 4;
     });
     return {
-        pharynxScore:     Math.min(100, (low/255)*160),
+        pharynxScore:     Math.min(100, (low/255)*220),
         alignmentScore:   Math.min(100, alignmentScore),
         formantsDetected: formants.length,
         alignedCount:     alignments.filter(a => a.status==='perfect'||a.status==='good').length,
@@ -1214,17 +1215,19 @@ function generateCoaching(smoothed, metrics) {
     function tooHigh(fk) { const v=smoothed[fk],r=s[fk]; return v&&r&&r[0]!==null&&v>r[1]; }
 
     // ── PHARYNX ──
-    if      (metrics.pharynxScore < 45) adjs.push({
+    // Thresholds lowered significantly for male voices
+    // Male voices naturally have less high-frequency energy so raw score runs lower
+    if      (metrics.pharynxScore < 25) adjs.push({
         area:'Pharynx', icon:'🗣️', status:'critical', cardClass:'warning',
-        instruction:'OPEN THROAT MORE — drop jaw and think "yawn". Tongue root forward, not pulled back.',
-        statusText:`❌ ${Math.round(metrics.pharynxScore)}% open` });
-    else if (metrics.pharynxScore < 65) adjs.push({
-        area:'Pharynx', icon:'🗣️', status:'needs-work', cardClass:'caution',
-        instruction:'Open throat a little more. Keep that relaxed yawn feeling.',
+        instruction:'Try dropping your jaw a little more and thinking of a relaxed yawn feeling.',
         statusText:`⚠️ ${Math.round(metrics.pharynxScore)}% open` });
+    else if (metrics.pharynxScore < 40) adjs.push({
+        area:'Pharynx', icon:'🗣️', status:'needs-work', cardClass:'caution',
+        instruction:'Throat is mostly open — just relax any remaining tension.',
+        statusText:`👍 ${Math.round(metrics.pharynxScore)}% open` });
     else adjs.push({
         area:'Pharynx', icon:'🗣️', status:'good', cardClass:'active',
-        instruction:'Great throat openness! Maintain this resonant space.',
+        instruction:'Throat is open and resonant — maintain this position!',
         statusText:`✅ ${Math.round(metrics.pharynxScore)}% open` });
 
     // ── TONGUE (F1/F2 based) ──
